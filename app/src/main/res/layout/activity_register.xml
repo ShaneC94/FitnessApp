@@ -8,7 +8,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="Register Account"
+        android:text="@string/register_account"
         android:textSize="22sp"
         android:textStyle="bold"
         android:textColor="@color/colorPrimary"
@@ -18,14 +18,14 @@
 
     <EditText
         android:id="@+id/etName"
-        android:hint="Full Name"
+        android:hint="@string/full_name"
         android:backgroundTint="@color/colorPrimaryVariant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/etUsername"
-        android:hint="Username"
+        android:hint="@string/username"
         android:backgroundTint="@color/colorPrimaryVariant"
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
@@ -33,7 +33,7 @@
 
     <EditText
         android:id="@+id/etPassword"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword"
         android:backgroundTint="@color/colorPrimaryVariant"
         android:layout_marginTop="8dp"
@@ -42,7 +42,7 @@
 
     <Button
         android:id="@+id/btnRegister"
-        android:text="Register"
+        android:text="@string/register"
         android:textAllCaps="false"
         android:backgroundTint="@color/colorPrimary"
         android:textColor="@android:color/white"

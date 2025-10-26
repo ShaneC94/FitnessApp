@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="Welcome Back!"
+        android:text="@string/welcome_back"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@color/colorPrimary"
@@ -17,7 +17,7 @@
 
     <EditText
         android:id="@+id/etUsername"
-        android:hint="Username"
+        android:hint="@string/username"
         android:background="@drawable/rounded_input_bg"
         android:padding="12dp"
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
 
     <EditText
         android:id="@+id/etPassword"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword"
         android:background="@drawable/rounded_input_bg"
         android:padding="12dp"
@@ -35,7 +35,7 @@
 
     <Button
         android:id="@+id/btnLogin"
-        android:text="Login"
+        android:text="@string/login"
         android:textAllCaps="false"
         android:backgroundTint="@color/colorPrimary"
         android:textColor="@android:color/white"
@@ -45,7 +45,7 @@
 
     <Button
         android:id="@+id/btnRegister"
-        android:text="Register"
+        android:text="@string/register"
         android:textAllCaps="false"
         android:backgroundTint="@color/colorSecondary"
         android:textColor="@android:color/white"

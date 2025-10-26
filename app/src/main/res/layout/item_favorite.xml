@@ -20,7 +20,7 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Push Day"
+            android:text="@string/workout_title"
             android:textStyle="bold"
             android:textSize="16sp"
             android:textColor="@color/colorTextPrimary" />
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="30 min • 4 exercises"
+            android:text="@string/duration_exercises"
             android:textSize="13sp"
             android:textColor="@color/colorTextSecondary" />
     </LinearLayout>

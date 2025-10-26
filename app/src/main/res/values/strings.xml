@@ -10,4 +10,13 @@
     <string name="log_progress">Log Progress</string>
     <string name="camera_scan">Camera Scan</string>
     <string name="find_gym">Find Gym</string>
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="register_account">Register Account</string>
+    <string name="full_name">Full Name</string>
+    <string name="workout_title">Workout Title</string>
+    <string name="duration_exercises">Duration • Exercises</string>
 </resources>
