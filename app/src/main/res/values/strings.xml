@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Fitness Tracker</string>
+    <string name="profile_image">Profile Image</string>
+    <string name="add_button">Add</string>
+    <string name="logout">Logout</string>
+    <string name="workouts">Workouts</string>
+    <string name="add_new">Add New</string>
+    <string name="add_workout">Add Workout</string>
+    <string name="add_recipe">Add Recipe</string>
+    <string name="log_progress">Log Progress</string>
+    <string name="camera_scan">Camera Scan</string>
+    <string name="find_gym">Find Gym</string>
+</resources>

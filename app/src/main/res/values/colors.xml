@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Background & Surface -->
+    <color name="colorBackground">#F9FAFB</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorLight">#F3F4F6</color> <!-- soft light gray -->
+    <color name="lightBlue">#B0C4DE</color>
+
+
+    <!-- Brand Colors -->
+    <color name="colorPrimary">#5E60CE</color>  <!-- Deep violet-blue -->
+    <color name="colorPrimaryVariant">#7C83FD</color> <!-- Light variant -->
+    <color name="colorSecondary">#38BDF8</color>  <!-- Aqua blue -->
+    <color name="colorAccent">#F4A261</color>    <!-- Soft orange -->
+
+    <!-- Text -->
+    <color name="colorTextPrimary">#1F2937</color>
+    <color name="colorTextSecondary">#6B7280</color>
+</resources>
