@@ -18,6 +18,8 @@
     <EditText
         android:id="@+id/etUsername"
         android:hint="@string/username"
+        android:inputType="textPersonName"
+        android:autofillHints="username"
         android:background="@drawable/rounded_input_bg"
         android:padding="12dp"
         android:layout_width="match_parent"
@@ -27,6 +29,7 @@
         android:id="@+id/etPassword"
         android:hint="@string/password"
         android:inputType="textPassword"
+        android:autofillHints="password"
         android:background="@drawable/rounded_input_bg"
         android:padding="12dp"
         android:layout_marginTop="8dp"

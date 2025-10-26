@@ -19,6 +19,8 @@
     <EditText
         android:id="@+id/etName"
         android:hint="@string/full_name"
+        android:inputType="textPersonName"
+        android:autofillHints="name"
         android:backgroundTint="@color/colorPrimaryVariant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -26,6 +28,8 @@
     <EditText
         android:id="@+id/etUsername"
         android:hint="@string/username"
+        android:inputType="textPersonName"
+        android:autofillHints="username"
         android:backgroundTint="@color/colorPrimaryVariant"
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
@@ -35,6 +39,7 @@
         android:id="@+id/etPassword"
         android:hint="@string/password"
         android:inputType="textPassword"
+        android:autofillHints="password"
         android:backgroundTint="@color/colorPrimaryVariant"
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
