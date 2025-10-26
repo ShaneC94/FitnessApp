@@ -3,6 +3,9 @@ package com.fitnessapp.utils
 import android.content.Context
 import android.content.SharedPreferences
 
+// Manages the user login session
+// Stores, retrieves, and clears session data using SharedPreferences
+// Allows the app to persist user login after app closure
 class SessionManager(context: Context) {
 
     private val prefs: SharedPreferences =

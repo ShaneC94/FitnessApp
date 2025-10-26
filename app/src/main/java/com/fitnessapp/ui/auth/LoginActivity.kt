@@ -12,6 +12,8 @@ import com.fitnessapp.utils.SessionManager
 import kotlinx.coroutines.launch
 import java.security.MessageDigest
 
+// Handles user auth logic
+// Uses Room for DB access and SessionManager to persist login state
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var db: AppDatabase
@@ -35,16 +37,19 @@ class LoginActivity : AppCompatActivity() {
         val loginBtn = findViewById<Button>(R.id.btnLogin)
         val registerBtn = findViewById<Button>(R.id.btnRegister)
 
+        // Login button logic
         loginBtn.setOnClickListener {
             lifecycleScope.launch {
                 val inputUsername = username.text.toString().trim()
                 val inputPassword = password.text.toString()
 
+                // Ensure both fields are filled
                 if (inputUsername.isEmpty() || inputPassword.isEmpty()) {
                     Toast.makeText(this@LoginActivity, "Please fill in all fields", Toast.LENGTH_SHORT).show()
                     return@launch
                 }
 
+                // Check if username exists and hash password before comparing with stored hash
                 val user = db.userDao().getUserByUsername(inputUsername)
                 val hashedInput = hashPassword(inputPassword)
 
@@ -58,6 +63,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+        // Redirect user to registration screen if they don't have an account
         registerBtn.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
@@ -67,6 +73,7 @@ class LoginActivity : AppCompatActivity() {
     private fun hashPassword(password: String): String {
         val digest = MessageDigest.getInstance("SHA-256")
         val hashBytes = digest.digest(password.toByteArray())
+       // Convert bytes to a lowercase hexadecimal string
         return hashBytes.joinToString("") { "%02x".format(it) }
     }
 }

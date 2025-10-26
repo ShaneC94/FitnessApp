@@ -10,6 +10,8 @@ import com.fitnessapp.data.entities.User
 import kotlinx.coroutines.launch
 import java.security.MessageDigest
 
+// Handles user registration
+// Collects users name, username, password, and hashes the password
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var db: AppDatabase
@@ -28,10 +30,11 @@ class RegisterActivity : AppCompatActivity() {
         registerBtn.setOnClickListener {
             val user = User(
                 username = username.text.toString(),
-                passwordHash = hash(password.text.toString()),
+                passwordHash = hash(password.text.toString()), // Securely hashes password
                 name = name.text.toString()
             )
 
+            // Launch a coroutine for DB ops (Room can't run on the main thread)
             lifecycleScope.launch {
                 try {
                     db.userDao().registerUser(user)
@@ -44,8 +47,10 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    // Hashes the password using SHA-256 for secure storage (not in plain text)
     private fun hash(input: String): String {
         val bytes = MessageDigest.getInstance("SHA-256").digest(input.toByteArray())
+        // Convert bytes to a lowercase hexadecimal string
         return bytes.joinToString("") { "%02x".format(it) }
     }
 }

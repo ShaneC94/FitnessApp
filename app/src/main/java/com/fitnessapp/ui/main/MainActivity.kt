@@ -18,12 +18,16 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
+    // Dependencies
     private lateinit var session: SessionManager
     private lateinit var db: AppDatabase
+
+    // UI Components
     private lateinit var tvGreeting: TextView
     private lateinit var tvQuote: TextView
     private lateinit var rvFavorites: RecyclerView
 
+    // Motivational Quotes - should be swapped out for language purposes
     private val quotes = listOf(
         "“Discipline beats motivation.”",
         "“Small progress is still progress.”",
@@ -50,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         tvQuote = findViewById(R.id.tvQuote)
         rvFavorites = findViewById(R.id.rvFavorites)
 
+        // Personalized greeting
         lifecycleScope.launch {
             val user = db.userDao().getUserById(userId)
             if (user != null) {
@@ -66,6 +71,7 @@ class MainActivity : AppCompatActivity() {
         setupNavigation()
     }
 
+    // Inits RecyclerView with static sample data - should be replaced with dynamic content from DB or API
     private fun setupRecycler() {
         rvFavorites.layoutManager = LinearLayoutManager(this)
         rvFavorites.adapter = FavoriteAdapter(
@@ -102,6 +108,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // A BottomSheetDialog with multiple options for features that can be implemented later
     private fun showAddPopup() {
         val dialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.popup_add_options, null)
