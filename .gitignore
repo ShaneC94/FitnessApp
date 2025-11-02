@@ -18,12 +18,14 @@ captures/
 Thumbs.db
 *.tmp
 
+# API
+secrets.properties
+
 # APKs / bundles
 *.apk
 *.aab
 
 # Default gitignore
-*.iml
 .gradle
 /local.properties
 /.idea/caches
@@ -32,10 +34,8 @@ Thumbs.db
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
-.DS_Store
 /build
 /captures
 .externalNativeBuild
 .cxx
-local.properties
 

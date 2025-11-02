@@ -71,42 +71,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- ===== WORKOUT CARDS ===== -->
-    <ScrollView
-        android:id="@+id/scrollContainer"
+    <!-- ===== MAP + RECYCLERVIEW CONTENT ===== -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mapContentContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@id/headerDivider"
         app:layout_constraintBottom_toTopOf="@id/bottomNav"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
-            android:paddingBottom="20dp">
+        <!-- Google Map Fragment -->
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/mapFragment"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/recyclerViewGyms"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.5" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="12dp"
-                android:text="@string/workouts"
-                android:textColor="@color/colorTextPrimary"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvFavorites"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:layout_marginBottom="12dp"/>
-        </LinearLayout>
-    </ScrollView>
+        <!-- RecyclerView (for gym list) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewGyms"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="8dp"
+            app:layout_constraintTop_toBottomOf="@id/mapFragment"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- ===== BOTTOM NAV ===== -->
     <LinearLayout
@@ -132,7 +130,7 @@
             android:layout_height="match_parent"
             android:drawablePadding="4dp"
             android:drawableTop="@drawable/outline_kitchen_24"
-            android:contentDescription="@string/recipes"/>
+            android:contentDescription="@string/recipes" />
 
         <!-- Center FAB -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -144,7 +142,7 @@
             android:contentDescription="@string/add_button"
             app:backgroundTint="@color/colorPrimary"
             app:tint="@android:color/white"
-            android:src="@drawable/outline_add_24"/>
+            android:src="@drawable/outline_add_24" />
 
         <!-- Workouts -->
         <Button
@@ -154,7 +152,7 @@
             android:layout_height="match_parent"
             android:drawablePadding="4dp"
             android:drawableTop="@drawable/outline_exercise_24"
-            android:contentDescription="@string/workouts"/>
+            android:contentDescription="@string/workouts" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

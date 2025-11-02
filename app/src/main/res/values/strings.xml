@@ -4,6 +4,7 @@
     <string name="add_button">Add</string>
     <string name="logout">Logout</string>
     <string name="workouts">Workouts</string>
+    <string name="recipes">Recipes</string>
     <string name="add_new">Add New</string>
     <string name="add_workout">Add Workout</string>
     <string name="add_recipe">Add Recipe</string>

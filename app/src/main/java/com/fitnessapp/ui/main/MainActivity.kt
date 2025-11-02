@@ -136,8 +136,11 @@ class MainActivity : AppCompatActivity() {
 
         view.findViewById<Button>(R.id.btnMap).setOnClickListener {
             dialog.dismiss()
-            // open MapIntegration()
+            val intent = Intent(this, com.fitnessapp.ui.map.MapActivity::class.java)
+            startActivity(intent)
         }
+
+
 
         dialog.show()
     }
