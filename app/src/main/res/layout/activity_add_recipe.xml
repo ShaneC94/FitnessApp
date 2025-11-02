@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+  >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Recipe Name Input -->
+        <!-- Ingredients Input -->
+
+        <EditText
+            android:id="@+id/editText_recipe_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top|start"
+            android:hint="Recipe Name"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toTopOf="@+id/editText_ingredients"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.376"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <!-- Instructions Input -->
+
+        <!-- Save Recipe Button -->
+
+        <EditText
+            android:id="@+id/editText_ingredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="top|start"
+            android:hint="Ingredients (e.g., 1 cup flour, 2 eggs)"
+            android:inputType="textMultiLine"
+            android:minHeight="150dp"
+            app:layout_constraintBottom_toTopOf="@+id/editText_instructions"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.7"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <EditText
+            android:id="@+id/editText_instructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="top|start"
+            android:hint="Instructions (e.g., 1. Mix ingredients...)"
+            android:inputType="textMultiLine"
+            android:minHeight="200dp"
+            app:layout_constraintBottom_toTopOf="@+id/button_save_recipe"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.586"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <EditText
+            android:id="@+id/editText_preptime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Preparation Time (minutes)"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText_instructions"
+            app:layout_constraintVertical_bias="0.111"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <EditText
+            android:id="@+id/editText_calories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="96dp"
+            android:hint="Calories"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText_preptime"
+            app:layout_constraintVertical_bias="0.221"
+            tools:layout_editor_absoluteX="35dp" />
+
+        <Button
+            android:id="@+id/button_save_recipe"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:text="Save Recipe"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.964" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

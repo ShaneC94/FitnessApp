@@ -29,6 +29,13 @@
 
 <!--        <activity android:name=".ui.workouts.WorkoutsActivity" />-->
 <!--        <activity android:name=".ui.recipes.RecipesActivity" />-->
+        <activity
+            android:name=".ui.main.RecipesActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.main.AddRecipesActivity"
+            android:exported="false" />
 
 
     </application>

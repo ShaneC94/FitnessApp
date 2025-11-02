@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity() {
 
         // Recipes button
         findViewById<Button>(R.id.btnRecipes).setOnClickListener {
-            // startActivity(Intent(this, RecipesActivity::class.java))
+            startActivity(Intent(this, RecipesActivity::class.java))
         }
 
         // Workouts button
@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity() {
 
         view.findViewById<Button>(R.id.btnAddRecipe).setOnClickListener {
             dialog.dismiss()
-            // open AddRecipeActivity()
+            startActivity(Intent(this, AddRecipesActivity::class.java))
         }
 
         view.findViewById<Button>(R.id.btnLogProgress).setOnClickListener {
