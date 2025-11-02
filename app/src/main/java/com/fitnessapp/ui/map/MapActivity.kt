@@ -3,7 +3,6 @@ package com.fitnessapp.ui.map
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -53,7 +52,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         session = SessionManager(this)
         db = AppDatabase.getInstance(this)
 
-        // Bind greeting
         tvGreeting = findViewById(R.id.tvGreeting)
 
         recyclerView = findViewById(R.id.recyclerViewGyms)
@@ -72,7 +70,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
-        // Seed DB with gyms if not present
+        // Seed DB with gyms if the table is empty
         DatabaseInitializer.seedGyms(this)
 
         // Setup Map Fragment
@@ -108,7 +106,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun loadGyms() {
         CoroutineScope(Dispatchers.IO).launch {
-            val dao = AppDatabase.getInstance(this@MapActivity).locationDao()
+            val dao = db.locationDao()
             val gyms = dao.getAllLocations()
             val sortedGyms = gyms.map {
                 val distance = haversine(
@@ -136,6 +134,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    // Calculates distance between two points
     private fun haversine(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
         val R = 6371
         val dLat = Math.toRadians(lat2 - lat1)
@@ -144,13 +143,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 cos(Math.toRadians(lat2)) * sin(dLon / 2).pow(2.0)
         val c = 2 * atan2(sqrt(a), sqrt(1 - a))
         return R * c
-    }
-
-    private fun openInGoogleMaps(gym: Location) {
-        val uri = Uri.parse("geo:${gym.latitude},${gym.longitude}?q=${Uri.encode(gym.name)}")
-        val intent = Intent(Intent.ACTION_VIEW, uri)
-        intent.setPackage("com.google.android.apps.maps")
-        startActivity(intent)
     }
 
     private fun focusOnGym(gym: Location) {

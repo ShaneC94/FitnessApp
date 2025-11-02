@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fitnessapp.R
 import com.fitnessapp.data.AppDatabase
 import com.fitnessapp.ui.auth.LoginActivity
+import com.fitnessapp.ui.recipes.AddRecipesActivity
+import com.fitnessapp.ui.recipes.RecipesActivity
 import com.fitnessapp.utils.SessionManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -27,14 +29,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvQuote: TextView
     private lateinit var rvFavorites: RecyclerView
 
-    // Motivational Quotes - should be swapped out for language purposes
-    private val quotes = listOf(
-        "“Discipline beats motivation.”",
-        "“Small progress is still progress.”",
-        "“Push harder than yesterday.”",
-        "“Your only limit is you.”",
-        "“It never gets easier, you just get stronger.”"
-    )
+    // Motivational quotes loaded from strings.xml for easy localization
+    private lateinit var quotes: Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,9 +46,14 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+        // Init UI components
         tvGreeting = findViewById(R.id.tvGreeting)
         tvQuote = findViewById(R.id.tvQuote)
         rvFavorites = findViewById(R.id.rvFavorites)
+
+        // Load quotes and display a random one
+        quotes = resources.getStringArray(R.array.quotes)
+        tvQuote.text = quotes.randomOrNull() ?: ""
 
         // Personalized greeting
         lifecycleScope.launch {

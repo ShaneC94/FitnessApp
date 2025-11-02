@@ -44,11 +44,11 @@
 
         <!-- Recipes -->
         <activity
-            android:name=".ui.main.RecipesActivity"
+            android:name=".ui.recipes.RecipesActivity"
             android:exported="false" />
 
         <activity
-            android:name=".ui.main.AddRecipesActivity"
+            android:name=".ui.recipes.AddRecipesActivity"
             android:exported="false" />
 
     </application>

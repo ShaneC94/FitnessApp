@@ -1,12 +1,12 @@
-package com.fitnessapp.ui.main
+package com.fitnessapp.ui.recipes
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-
 import androidx.recyclerview.widget.RecyclerView
 import com.fitnessapp.R
+import com.fitnessapp.data.entities.Recipe
 
 //adapts data from recipes to the recycler view
 //takes in a list of recipes called 'recipes'

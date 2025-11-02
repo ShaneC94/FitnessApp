@@ -30,7 +30,7 @@ abstract class AppDatabase : RoomDatabase() {
                     "fitness_app_db"
                 )
                     .fallbackToDestructiveMigration() // if a schema mismatch occurs, drop and recreate table.
-                    // Good for testing/debugging. Needs to be changed to safe migration
+                    // Fine for testing/debugging. Should be changed to safe migration for project finalization
                     .build()
                 INSTANCE = instance
                 instance

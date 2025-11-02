@@ -1,18 +1,14 @@
-package com.fitnessapp.ui.main
+package com.fitnessapp.ui.recipes
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fitnessapp.R
-import com.fitnessapp.R.*
 import com.fitnessapp.data.AppDatabase
+import com.fitnessapp.data.repositories.RecipeRepository
+import com.fitnessapp.ui.recipes.RecipeAdapter
 import com.fitnessapp.utils.SessionManager
-import com.fitnessapp.ui.main.Recipe
-
-
 
 class RecipesActivity : AppCompatActivity() {
 
@@ -25,10 +21,10 @@ class RecipesActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(layout.activity_recipes)
+        setContentView(R.layout.activity_recipes)
 
         session = SessionManager(this)
-        db = AppDatabase.getInstance(this)
+        db = AppDatabase.Companion.getInstance(this)
 
         rvRecipes = findViewById(R.id.rvRecipes)
         rvRecipes.layoutManager = LinearLayoutManager(this)
