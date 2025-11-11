@@ -4,6 +4,7 @@
     <string name="add_button">Add</string>
     <string name="logout">Logout</string>
     <string name="workouts">Workouts</string>
+    <string name="recipes">Recipes</string>
     <string name="add_new">Add New</string>
     <string name="add_workout">Add Workout</string>
     <string name="add_recipe">Add Recipe</string>
@@ -19,4 +20,14 @@
     <string name="full_name">Full Name</string>
     <string name="workout_title">Workout Title</string>
     <string name="duration_exercises">Duration • Exercises</string>
+
+
+    <string-array name="quotes">
+        <item>“Discipline beats motivation.”</item>
+        <item>“Small progress is still progress.”</item>
+        <item>“Push harder than yesterday.”</item>
+        <item>“Your only limit is you.”</item>
+        <item>“It never gets easier, you just get stronger.”</item>
+    </string-array>
+
 </resources>

@@ -1,4 +1,5 @@
-package com.fitnessapp.ui.main
+package com.fitnessapp.data.entities
+
 //Just a data class for Recipe
 data class Recipe(
                   val name: String,

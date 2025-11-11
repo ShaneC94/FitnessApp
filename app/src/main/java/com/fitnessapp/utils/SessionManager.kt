@@ -2,6 +2,7 @@ package com.fitnessapp.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 
 // Manages the user login session
 // Stores, retrieves, and clears session data using SharedPreferences
@@ -16,7 +17,7 @@ class SessionManager(context: Context) {
     }
 
     fun saveUserSession(userId: Int) {
-        prefs.edit().putInt(KEY_USER_ID, userId).apply()
+        prefs.edit { putInt(KEY_USER_ID, userId) }
     }
 
     fun getUserId(): Int? {
@@ -25,6 +26,6 @@ class SessionManager(context: Context) {
     }
 
     fun clearSession() {
-        prefs.edit().clear().apply()
+        prefs.edit { clear() }
     }
 }

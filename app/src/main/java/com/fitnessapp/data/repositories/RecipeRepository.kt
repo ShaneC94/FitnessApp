@@ -1,4 +1,6 @@
-package com.fitnessapp.ui.main
+package com.fitnessapp.data.repositories
+
+import com.fitnessapp.data.entities.Recipe
 
 // This object acts as a simple in-memory database.
 // All activities will share this single instance.

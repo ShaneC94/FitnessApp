@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.fitnessapp">
 
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,6 +17,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FitnessTracker">
+
+        <!-- Google Maps API Key (securely injected via Gradle placeholders) -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
 
         <!-- Launch Activity -->
         <activity
@@ -23,21 +33,23 @@
             </intent-filter>
         </activity>
 
-        <!-- Auth Activities -->
+        <!-- Authentication -->
         <activity android:name=".ui.auth.LoginActivity" />
         <activity android:name=".ui.auth.RegisterActivity" />
 
-<!--        <activity android:name=".ui.workouts.WorkoutsActivity" />-->
-<!--        <activity android:name=".ui.recipes.RecipesActivity" />-->
+        <!-- Map Screen -->
         <activity
-            android:name=".ui.main.RecipesActivity"
+            android:name=".ui.map.MapActivity"
+            android:exported="false" />
+
+        <!-- Recipes -->
+        <activity
+            android:name=".ui.recipes.RecipesActivity"
             android:exported="false" />
 
         <activity
-            android:name=".ui.main.AddRecipesActivity"
+            android:name=".ui.recipes.AddRecipesActivity"
             android:exported="false" />
-
 
     </application>
-
 </manifest>

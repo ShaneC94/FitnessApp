@@ -1,4 +1,4 @@
-package com.fitnessapp.ui.main
+package com.fitnessapp.ui.recipes
 
 import android.os.Bundle
 import android.widget.Button
@@ -6,6 +6,8 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.fitnessapp.R
 import com.fitnessapp.data.AppDatabase
+import com.fitnessapp.data.entities.Recipe
+import com.fitnessapp.data.repositories.RecipeRepository
 import com.fitnessapp.utils.SessionManager
 
 class AddRecipesActivity: AppCompatActivity() {
