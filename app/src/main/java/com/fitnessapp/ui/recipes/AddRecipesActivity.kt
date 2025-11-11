@@ -4,15 +4,19 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.fitnessapp.R
 import com.fitnessapp.data.AppDatabase
 import com.fitnessapp.data.entities.Recipe
 import com.fitnessapp.data.repositories.RecipeRepository
 import com.fitnessapp.utils.SessionManager
+import kotlinx.coroutines.launch
 
-class AddRecipesActivity: AppCompatActivity() {
+class AddRecipesActivity : AppCompatActivity() {
     private lateinit var db: AppDatabase
+    private lateinit var repository: RecipeRepository
     private lateinit var session: SessionManager
+
     private lateinit var etRecipeName: EditText
     private lateinit var etIngredients: EditText
     private lateinit var etInstructions: EditText
@@ -23,6 +27,10 @@ class AddRecipesActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_recipe)
+
+        session = SessionManager(this)
+        db = AppDatabase.getInstance(this)
+        repository = RecipeRepository(db.recipeDao())
 
         etRecipeName = findViewById(R.id.editText_recipe_name)
         etIngredients = findViewById(R.id.editText_ingredients)
@@ -38,15 +46,18 @@ class AddRecipesActivity: AppCompatActivity() {
             val preparationTime = etPreparationTime.text.toString().toInt()
             val calories = etCalories.text.toString().toInt()
 
-            val newRecipe = Recipe(recipeName, ingredients, instructions, preparationTime, calories)
+            val newRecipe = Recipe(
+                name = recipeName,
+                ingredients = ingredients,
+                instructions = instructions,
+                preparationTime = preparationTime,
+                calories = calories
+            )
 
-            RecipeRepository.addRecipe(newRecipe)
-            finish()
-
+            lifecycleScope.launch {
+                repository.insert(newRecipe)
+                finish()
+            }
         }
-
     }
-
-
-
 }

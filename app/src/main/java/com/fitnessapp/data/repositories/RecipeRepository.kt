@@ -1,39 +1,22 @@
 package com.fitnessapp.data.repositories
 
+import com.fitnessapp.data.dao.RecipeDao
 import com.fitnessapp.data.entities.Recipe
+import kotlinx.coroutines.flow.Flow
 
-// This object acts as a simple in-memory database.
-// All activities will share this single instance.
-object  RecipeRepository {
-    private val recipes = mutableListOf<Recipe>()
+class RecipeRepository(private val recipeDao: RecipeDao) {
 
-    init {
-        recipes.addAll(
-            listOf(
-                Recipe(
-                    "Recipe 1",
-                    "Ingredients 1", "Instructions 1",
-                    10, 100
-                ),
-                Recipe(
-                    "Recipe 2", "Ingredients 2",
-                    "Instructions 2",
-                    20, 200
-                ),
-                Recipe(
-                    "Recipe 3",
-                    "Ingredients 3", "Instructions 3",
-                    30, 300
-                )
-            )
-        )
+    val allRecipes: Flow<List<Recipe>> = recipeDao.getAllRecipes()
+
+    suspend fun insert(recipe: Recipe) {
+        recipeDao.insertRecipe(recipe)
     }
 
-    fun getAllRecipes(): List<Recipe> {
-        return recipes
+    suspend fun update(recipe: Recipe) {
+        recipeDao.updateRecipe(recipe)
     }
 
-    fun addRecipe(recipe: Recipe) {
-        recipes.add(recipe)
+    suspend fun delete(recipe: Recipe) {
+        recipeDao.deleteRecipe(recipe)
     }
 }
