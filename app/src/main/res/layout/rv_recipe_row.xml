@@ -39,10 +39,22 @@
                 android:text=""
                 android:textSize="25dp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.138"
+                app:layout_constraintEnd_toStartOf="@+id/img_recipe_photo"
                 app:layout_constraintStart_toEndOf="@+id/favRecipeBox"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_recipe_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:contentDescription="Recipe Photo"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.948"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.48" />
 
             <TextView
                 android:id="@+id/tv_recipe_preptime"
@@ -52,8 +64,7 @@
                 android:text="TextView"
                 android:textSize="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.153"
+                app:layout_constraintEnd_toStartOf="@+id/img_recipe_photo"
                 app:layout_constraintStart_toEndOf="@+id/favRecipeBox"
                 app:layout_constraintTop_toBottomOf="@+id/tv_recipe_name"
                 app:layout_constraintVertical_bias="1.0" />

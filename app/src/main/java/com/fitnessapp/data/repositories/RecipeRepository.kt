@@ -1,25 +1,51 @@
 package com.fitnessapp.data.repositories
 
-import com.fitnessapp.data.dao.RecipeDao
+import com.fitnessapp.App
+import com.fitnessapp.data.AppDatabase
 import com.fitnessapp.data.entities.Recipe
-import kotlinx.coroutines.flow.Flow
+import com.fitnessapp.data.dao.RecipeDao
+object RecipeRepository {
 
-class RecipeRepository(private val recipeDao: RecipeDao) {
+    private val recipes = mutableListOf<Recipe>()
 
-    val allRecipes: Flow<List<Recipe>> = recipeDao.getAllRecipes()
-
-    suspend fun insert(recipe: Recipe) {
-        recipeDao.insertRecipe(recipe)
+    init {
+        recipes.addAll(
+            listOf(
+                Recipe(
+                    name = "Recipe 1",
+                    ingredients = "Ingredients 1",
+                    instructions = "Instructions 1",
+                    preparationTime = 10,
+                    calories = 100
+                ),
+                Recipe(
+                    name = "Recipe 2",
+                    ingredients = "Ingredients 2",
+                    instructions = "Instructions 2",
+                    preparationTime = 20,
+                    calories = 200
+                ),
+                Recipe(
+                    name = "Recipe 3",
+                    ingredients = "Ingredients 3",
+                    instructions = "Instructions 3",
+                    preparationTime = 30,
+                    calories = 300
+                )
+            )
+        )
     }
 
-    suspend fun update(recipe: Recipe) {
-        recipeDao.updateRecipe(recipe)
+
+    // Add a recipe to Room database
+    fun addRecipe(recipe: Recipe) {
+        val db = AppDatabase.getInstance(App.instance)
+        db.recipeDao().insert(recipe)
     }
 
-    suspend fun delete(recipe: Recipe) {
-        recipeDao.deleteRecipe(recipe)
-    }
-    suspend fun getRecipeById(recipeId: Int): Recipe? {
-        return recipeDao.getRecipeById(recipeId)
+    // Retrieve all recipes from Room database
+    fun getAllRecipes(): List<Recipe> {
+        val db = AppDatabase.getInstance(App.instance)
+        return db.recipeDao().getAllRecipes()
     }
 }
