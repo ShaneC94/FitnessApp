@@ -49,15 +49,14 @@
             android:id="@+id/editText_instructions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="204dp"
             android:gravity="top|start"
             android:hint="Instructions (e.g., 1. Mix ingredients...)"
             android:inputType="textMultiLine"
             android:minHeight="200dp"
-            app:layout_constraintBottom_toTopOf="@+id/button_save_recipe"
+
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.586"
-            tools:layout_editor_absoluteX="16dp" />
+            tools:layout_editor_absoluteX="6dp" />
 
         <EditText
             android:id="@+id/editText_preptime"
@@ -67,7 +66,7 @@
             android:inputType="number"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText_instructions"
-            app:layout_constraintVertical_bias="0.111"
+            app:layout_constraintVertical_bias="0.188"
             tools:layout_editor_absoluteX="16dp" />
 
         <EditText
@@ -79,21 +78,45 @@
             android:inputType="number"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText_preptime"
-            app:layout_constraintVertical_bias="0.221"
-            tools:layout_editor_absoluteX="35dp" />
+            app:layout_constraintVertical_bias="0.457"
+            tools:layout_editor_absoluteX="16dp" />
 
-        <Button
-            android:id="@+id/button_save_recipe"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:text="Save Recipe"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.964" />
+            app:layout_constraintVertical_bias="0.949"
+            tools:layout_editor_absoluteX="16dp">
+
+
+            <Button
+                android:id="@+id/button_save_recipe"
+                android:layout_width="185dp"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:text="Update Recipe"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.913" />
+
+            <Button
+                android:id="@+id/button_close_recipe"
+                android:layout_width="185dp"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:text="Back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.913" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
