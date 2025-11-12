@@ -11,6 +11,7 @@
     <string name="log_progress">Log Progress</string>
     <string name="camera_scan">Camera Scan</string>
     <string name="find_gym">Find Gym</string>
+    <string name="return_to_main">Return to Main</string>
     <string name="welcome_back">Welcome Back!</string>
     <string name="username">Username</string>
     <string name="password">Password</string>

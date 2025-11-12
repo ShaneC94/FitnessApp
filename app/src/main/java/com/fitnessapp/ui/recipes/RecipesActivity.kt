@@ -2,6 +2,7 @@ package com.fitnessapp.ui.recipes
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -12,11 +13,12 @@ import com.fitnessapp.data.AppDatabase
 import com.fitnessapp.data.entities.Recipe
 import com.fitnessapp.data.repositories.RecipeRepository
 import com.fitnessapp.ui.auth.LoginActivity
+import com.fitnessapp.ui.main.MainActivity
+import com.fitnessapp.ui.map.MapActivity
 import com.fitnessapp.utils.SessionManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import com.fitnessapp.ui.recipes.RecipesActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
@@ -91,15 +93,30 @@ class RecipesActivity : AppCompatActivity() {
         }
     }
 
-    // A BottomSheetDialog with multiple options for features that can be implemented later
+    // ===== ADD BUTTON POPUP =====
     private fun showAddPopup() {
         val dialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.popup_add_options, null)
         dialog.setContentView(view)
 
+        // Make ALL buttons visible
+        val buttonIds = listOf(
+            R.id.btnAddWorkout,
+            R.id.btnAddRecipe,
+            R.id.btnLogProgress,
+            R.id.btnCamera,
+            R.id.btnMap,
+            R.id.btnMain
+        )
+
+        buttonIds.forEach { id ->
+            view.findViewById<Button>(id).visibility = View.VISIBLE
+        }
+
+        // === Button Click Handlers ===
         view.findViewById<Button>(R.id.btnAddWorkout).setOnClickListener {
             dialog.dismiss()
-            // open AddWorkoutActivity()
+            // startActivity(Intent(this, AddWorkoutActivity::class.java))
         }
 
         view.findViewById<Button>(R.id.btnAddRecipe).setOnClickListener {
@@ -109,27 +126,27 @@ class RecipesActivity : AppCompatActivity() {
 
         view.findViewById<Button>(R.id.btnLogProgress).setOnClickListener {
             dialog.dismiss()
-            // open LogProgressActivity()
+            // startActivity(Intent(this, LogProgressActivity::class.java))
         }
 
         view.findViewById<Button>(R.id.btnCamera).setOnClickListener {
             dialog.dismiss()
-            // open CameraIntegration()
+            // startActivity(Intent(this, CameraIntegration::class.java))
         }
 
-        val btnMap = view.findViewById<Button>(R.id.btnMap)
-        btnMap.text = "Return to Main Page"
-        btnMap.setOnClickListener {
+        view.findViewById<Button>(R.id.btnMap).setOnClickListener {
             dialog.dismiss()
-            val intent = Intent(this, com.fitnessapp.ui.main.MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            startActivity(Intent(this, MapActivity::class.java))
         }
 
-
+        view.findViewById<Button>(R.id.btnMain).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, MainActivity::class.java))
+        }
 
         dialog.show()
     }
+
 }
 
 

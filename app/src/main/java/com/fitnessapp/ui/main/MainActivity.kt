@@ -2,6 +2,7 @@ package com.fitnessapp.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fitnessapp.R
 import com.fitnessapp.data.AppDatabase
 import com.fitnessapp.ui.auth.LoginActivity
+import com.fitnessapp.ui.map.MapActivity
 import com.fitnessapp.ui.recipes.AddRecipesActivity
 import com.fitnessapp.ui.recipes.RecipesActivity
 import com.fitnessapp.utils.SessionManager
@@ -109,15 +111,29 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // A BottomSheetDialog with multiple options for features that can be implemented later
+    // ===== ADD BUTTON POPUP =====
     private fun showAddPopup() {
         val dialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.popup_add_options, null)
         dialog.setContentView(view)
 
+        // Make ALL buttons visible
+        val buttonIds = listOf(
+            R.id.btnAddWorkout,
+            R.id.btnAddRecipe,
+            R.id.btnLogProgress,
+            R.id.btnCamera,
+            R.id.btnMap
+        )
+
+        buttonIds.forEach { id ->
+            view.findViewById<Button>(id).visibility = View.VISIBLE
+        }
+
+        // === Button Click Handlers ===
         view.findViewById<Button>(R.id.btnAddWorkout).setOnClickListener {
             dialog.dismiss()
-            // open AddWorkoutActivity()
+            // startActivity(Intent(this, AddWorkoutActivity::class.java))
         }
 
         view.findViewById<Button>(R.id.btnAddRecipe).setOnClickListener {
@@ -127,21 +143,18 @@ class MainActivity : AppCompatActivity() {
 
         view.findViewById<Button>(R.id.btnLogProgress).setOnClickListener {
             dialog.dismiss()
-            // open LogProgressActivity()
+            // startActivity(Intent(this, LogProgressActivity::class.java))
         }
 
         view.findViewById<Button>(R.id.btnCamera).setOnClickListener {
             dialog.dismiss()
-            // open CameraIntegration()
+            // startActivity(Intent(this, CameraIntegration::class.java))
         }
 
         view.findViewById<Button>(R.id.btnMap).setOnClickListener {
             dialog.dismiss()
-            val intent = Intent(this, com.fitnessapp.ui.map.MapActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, MapActivity::class.java))
         }
-
-
 
         dialog.show()
     }
