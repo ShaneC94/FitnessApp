@@ -19,4 +19,7 @@ class RecipeRepository(private val recipeDao: RecipeDao) {
     suspend fun delete(recipe: Recipe) {
         recipeDao.deleteRecipe(recipe)
     }
+    suspend fun getRecipeById(recipeId: Int): Recipe? {
+        return recipeDao.getRecipeById(recipeId)
+    }
 }

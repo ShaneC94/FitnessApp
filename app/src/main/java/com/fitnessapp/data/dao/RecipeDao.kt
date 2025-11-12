@@ -34,4 +34,7 @@ interface RecipeDao {
     // Clears all stored recipes from the local database
     @Query("DELETE FROM recipes")
     suspend fun clearAll()
+
+    @Query("SELECT * FROM recipes WHERE id = :recipeId")
+    suspend fun getRecipeById(recipeId: Int): Recipe?
 }

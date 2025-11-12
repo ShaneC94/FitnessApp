@@ -50,5 +50,8 @@
             android:name=".ui.recipes.AddRecipesActivity"
             android:exported="false" />
 
+        <activity android:name=".ui.recipes.RecipeDetailActivity" />
+
+
     </application>
 </manifest>
