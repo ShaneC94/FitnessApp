@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.fitnessapp.R
 import com.fitnessapp.data.entities.Recipe
@@ -50,4 +51,21 @@ class RecipeAdapter (var recipes: List<Recipe>): RecyclerView.Adapter<RecipeAdap
         override fun getItemCount(): Int {
             return recipes.size
         }
+
+    fun updateRecipes(newList: List<Recipe>) {
+        val diffResult = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+            override fun getOldListSize() = recipes.size
+            override fun getNewListSize() = newList.size
+
+            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return recipes[oldItemPosition].id == newList[newItemPosition].id
+            }
+
+            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return recipes[oldItemPosition] == newList[newItemPosition]
+            }
+        })
+        recipes = newList
+        diffResult.dispatchUpdatesTo(this)
+    }
 }
