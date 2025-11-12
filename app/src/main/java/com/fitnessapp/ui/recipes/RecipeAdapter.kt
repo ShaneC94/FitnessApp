@@ -12,7 +12,10 @@ import com.fitnessapp.data.entities.Recipe
 //adapts data from recipes to the recycler view
 //takes in a list of recipes called 'recipes'
 //it inherits from RecyclerView.Adapter and takes in a RecipeViewHolder
-class RecipeAdapter (var recipes: List<Recipe>): RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
+class RecipeAdapter (var recipes: List<Recipe>,
+                   // Handles clicks and passes the clicked Recipe (object)
+                     private val onItemClicked: (Recipe) -> Unit
+ ): RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
 
     //holds the views of recycler view from recipe_row.xml
     //passing in the the row which is a view and it inherits from RecyclerView class
@@ -45,6 +48,9 @@ class RecipeAdapter (var recipes: List<Recipe>): RecyclerView.Adapter<RecipeAdap
         //assigns properties of the Recipe object to the views of the row
         holder.recipeNameTextView.text = recipes[position].name
         holder.recipePrepTimeTextView.text = recipes[position].preparationTime.toString()
+        holder.itemView.setOnClickListener {
+            onItemClicked(recipes[position]) //current recipe in the list
+        }
     }
 
         //returns the size of the list of recipes in the recyclerview
