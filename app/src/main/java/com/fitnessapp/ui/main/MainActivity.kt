@@ -140,9 +140,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, com.fitnessapp.ui.map.MapActivity::class.java)
             startActivity(intent)
         }
-
-
-
         dialog.show()
     }
 }
