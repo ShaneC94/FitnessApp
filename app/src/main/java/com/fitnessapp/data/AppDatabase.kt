@@ -4,75 +4,46 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
+import com.fitnessapp.data.dao.UserDao
 import com.fitnessapp.data.dao.LocationDao
 import com.fitnessapp.data.dao.RecipeDao
-import com.fitnessapp.data.dao.UserDao
+import com.fitnessapp.data.dao.WorkoutDao
+import com.fitnessapp.data.dao.ExerciseDao
 import com.fitnessapp.data.entities.User
-import com.fitnessapp.data.entities.Recipe
 import com.fitnessapp.data.entities.Location
-import java.util.concurrent.Executors
+import com.fitnessapp.data.entities.Recipe
+import com.fitnessapp.data.entities.Workout
+import com.fitnessapp.data.entities.Exercise
 
-@Database(
-    entities = [User::class, Recipe::class, Location::class],
-    version = 2,  // increment version if database has changed
-    exportSchema = false
-)
+// The main Room database for the Fitness App
+// Defines DB config and is the main access point for connecting to persisted data
+// Manages DAO instances and DB creation
+@Database(entities = [User::class, Location::class, Recipe::class, Workout::class, Exercise::class], version = 5, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
+    // Provides access to DAO methods for the user entity
     abstract fun userDao(): UserDao
-    abstract fun recipeDao(): RecipeDao
     abstract fun locationDao(): LocationDao
+    abstract fun recipeDao(): RecipeDao
+    abstract fun workoutDao(): WorkoutDao
+    abstract fun exerciseDao(): ExerciseDao
 
     companion object {
-        @Volatile
-        private var INSTANCE: AppDatabase? = null
+        // Volatile ensures that changes to this variable are immediately visible to all threads
+        @Volatile private var INSTANCE: AppDatabase? = null
 
         fun getInstance(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "fitness_database"
+                    "fitness_app_db"
                 )
-                    .fallbackToDestructiveMigration()
-                    .addCallback(object : RoomDatabase.Callback() {
-                        override fun onCreate(db: SupportSQLiteDatabase) {
-                            super.onCreate(db)
-                            Executors.newSingleThreadExecutor().execute {
-                                getInstance(context).recipeDao().insertAll(
-                                    listOf(
-                                        Recipe(
-                                            name = "Recipe 1",
-                                            ingredients = "Ingredients 1",
-                                            instructions = "Instructions 1",
-                                            preparationTime = 10,
-                                            calories = 100
-                                        ),
-                                        Recipe(
-                                            name = "Recipe 2",
-                                            ingredients = "Ingredients 2",
-                                            instructions = "Instructions 2",
-                                            preparationTime = 20,
-                                            calories = 200
-                                        ),
-                                        Recipe(
-                                            name = "Recipe 3",
-                                            ingredients = "Ingredients 3",
-                                            instructions = "Instructions 3",
-                                            preparationTime = 30,
-                                            calories = 300
-                                        )
-                                    )
-                                )
-                            }
-                        }
-                    })
+                    .fallbackToDestructiveMigration() // if a schema mismatch occurs, drop and recreate table.
+                    // Fine for testing/debugging. Should be changed to safe migration for project finalization
                     .build()
                 INSTANCE = instance
                 instance
             }
         }
-
     }
 }
-

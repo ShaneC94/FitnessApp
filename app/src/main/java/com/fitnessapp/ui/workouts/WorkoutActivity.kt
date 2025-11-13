@@ -1,4 +1,4 @@
-package com.fitnessapp.ui.recipes
+package com.fitnessapp.ui.workouts
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,62 +9,66 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fitnessapp.R
 import com.fitnessapp.data.AppDatabase
-import com.fitnessapp.data.entities.Recipe
-import com.fitnessapp.data.repositories.RecipeRepository
+
+import com.fitnessapp.data.entities.Workout
+
+import com.fitnessapp.data.repositories.WorkoutRepository
 import com.fitnessapp.ui.auth.LoginActivity
+import com.fitnessapp.ui.recipes.AddRecipesActivity
+import com.fitnessapp.ui.recipes.RecipesActivity
 import com.fitnessapp.utils.SessionManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import com.fitnessapp.ui.recipes.RecipesActivity
-import com.fitnessapp.ui.workouts.WorkoutActivity
+
+import com.fitnessapp.ui.workouts.WorkoutAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
-class RecipesActivity : AppCompatActivity() {
+class WorkoutActivity : AppCompatActivity() {
 
     private lateinit var db: AppDatabase
     private lateinit var session: SessionManager
-    private lateinit var rvRecipes: RecyclerView
-    private lateinit var repository: RecipeRepository
-    private lateinit var adapter: RecipeAdapter
+    private lateinit var rvWorkouts: RecyclerView
+    private lateinit var repository: WorkoutRepository
+    private lateinit var adapter: WorkoutAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_recipes)
+        setContentView(R.layout.activity_workouts)
 
         session = SessionManager(this)
         db = AppDatabase.getInstance(this)
-        repository = RecipeRepository(db.recipeDao())
+        repository = WorkoutRepository(db.workoutDao())
 
-        rvRecipes = findViewById(R.id.rvRecipes)
-        rvRecipes.layoutManager = LinearLayoutManager(this)
+        rvWorkouts = findViewById(R.id.rvWorkouts)
+        rvWorkouts.layoutManager = LinearLayoutManager(this)
 
-        //lambda function passed in handles clicks on the recipe
-        adapter = RecipeAdapter(emptyList()) {recipe ->
-            onRecipeClicked(recipe)
+        //lambda function passed in handles clicks on the workout
+        adapter = WorkoutAdapter(emptyList()) {workout ->
+            onWorkoutClicked(workout)
         }
-        rvRecipes.adapter = adapter
+        rvWorkouts.adapter = adapter
 
-        loadRecipes()
+        loadWorkouts()
         setupNavigation()
     }
-    private fun onRecipeClicked(recipe: Recipe) {
+    private fun onWorkoutClicked(workout: Workout) {
         // intent to navigate to your new details activity
-        val intent = Intent(this, RecipeDetailActivity::class.java)
+        val intent = Intent(this, WorkoutDetailActivity::class.java)
 
         // Pass the unique ID of the clicked recipe to the next activity
-        intent.putExtra("RECIPE_ID", recipe.id)
+        intent.putExtra("WORKOUT_ID", workout.id)
 
         startActivity(intent)
     }
 
 
 
-    private fun loadRecipes() {
+    private fun loadWorkouts() {
         lifecycleScope.launch {
-            repository.allRecipes.collectLatest { recipeList ->
-                adapter.updateRecipes(recipeList)
+            repository.allWorkouts.collectLatest { workoutList ->
+                adapter.updateWorkouts(workoutList)
             }
         }
     }
@@ -88,7 +92,7 @@ class RecipesActivity : AppCompatActivity() {
 
         // Workouts button
         findViewById<Button>(R.id.btnWorkouts).setOnClickListener {
-            startActivity(Intent(this, WorkoutActivity::class.java))
+            // startActivity(Intent(this, WorkoutsActivity::class.java))
         }
     }
 
@@ -101,6 +105,7 @@ class RecipesActivity : AppCompatActivity() {
         view.findViewById<Button>(R.id.btnAddWorkout).setOnClickListener {
             dialog.dismiss()
             // open AddWorkoutActivity()
+            startActivity(Intent(this, AddWorkoutActivity::class.java))
         }
 
         view.findViewById<Button>(R.id.btnAddRecipe).setOnClickListener {
