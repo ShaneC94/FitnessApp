@@ -3,6 +3,7 @@ package com.fitnessapp.ui.recipes
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.fitnessapp.R
@@ -23,6 +24,8 @@ class AddRecipesActivity : AppCompatActivity() {
     private lateinit var etPreparationTime: EditText
     private lateinit var etCalories: EditText
     private lateinit var btnSaveRecipe: Button
+    private lateinit var btnCloseRecipe: Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +41,11 @@ class AddRecipesActivity : AppCompatActivity() {
         etPreparationTime = findViewById(R.id.editText_preptime)
         etCalories = findViewById(R.id.editText_calories)
         btnSaveRecipe = findViewById(R.id.button_save_recipe)
+        btnCloseRecipe = findViewById(R.id.button_close_recipe)
+
+        btnCloseRecipe.setOnClickListener {
+            finish()
+        }
 
         btnSaveRecipe.setOnClickListener {
             val recipeName = etRecipeName.text.toString()
@@ -45,6 +53,11 @@ class AddRecipesActivity : AppCompatActivity() {
             val instructions = etInstructions.text.toString()
             val preparationTime = etPreparationTime.text.toString().toInt()
             val calories = etCalories.text.toString().toInt()
+
+            if (recipeName.isBlank() || ingredients.isBlank() || instructions.isBlank() || preparationTime == null || calories == null) {
+                Toast.makeText(this, "Please fill out all fields.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             val newRecipe = Recipe(
                 name = recipeName,

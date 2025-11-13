@@ -8,7 +8,6 @@ import androidx.room.PrimaryKey
 data class Workout(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val name: String,
-    val type: String,
+    var isFavorite: Boolean = false,
     val durationMinutes: Int,
-    var isFavorite: Boolean = false
 )
