@@ -135,7 +135,6 @@ class MainActivity : AppCompatActivity() {
         // === Button Click Handlers ===
         view.findViewById<Button>(R.id.btnAddWorkout).setOnClickListener {
             dialog.dismiss()
-            // open AddWorkoutActivity()
             startActivity(Intent(this, AddWorkoutActivity::class.java))
         }
 

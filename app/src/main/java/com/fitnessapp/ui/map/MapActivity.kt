@@ -21,6 +21,7 @@ import com.fitnessapp.data.repositories.RecipeRepository
 import com.fitnessapp.ui.auth.LoginActivity
 import com.fitnessapp.ui.main.MainActivity
 import com.fitnessapp.ui.recipes.AddRecipesActivity
+import com.fitnessapp.ui.workouts.AddWorkoutActivity
 import com.fitnessapp.utils.DatabaseInitializer
 import com.fitnessapp.utils.SessionManager
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -235,7 +236,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         // === Button Click Handlers ===
         view.findViewById<Button>(R.id.btnAddWorkout).setOnClickListener {
             dialog.dismiss()
-            // startActivity(Intent(this, AddWorkoutActivity::class.java))
+            startActivity(Intent(this, AddWorkoutActivity::class.java))
         }
 
         view.findViewById<Button>(R.id.btnAddRecipe).setOnClickListener {
