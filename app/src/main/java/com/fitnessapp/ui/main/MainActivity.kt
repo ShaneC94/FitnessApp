@@ -13,6 +13,8 @@ import com.fitnessapp.data.AppDatabase
 import com.fitnessapp.ui.auth.LoginActivity
 import com.fitnessapp.ui.recipes.AddRecipesActivity
 import com.fitnessapp.ui.recipes.RecipesActivity
+import com.fitnessapp.ui.workouts.AddWorkoutActivity
+import com.fitnessapp.ui.workouts.WorkoutActivity
 import com.fitnessapp.utils.SessionManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -105,7 +107,7 @@ class MainActivity : AppCompatActivity() {
 
         // Workouts button
         findViewById<Button>(R.id.btnWorkouts).setOnClickListener {
-            // startActivity(Intent(this, WorkoutsActivity::class.java))
+             startActivity(Intent(this, WorkoutActivity::class.java))
         }
     }
 
@@ -118,6 +120,7 @@ class MainActivity : AppCompatActivity() {
         view.findViewById<Button>(R.id.btnAddWorkout).setOnClickListener {
             dialog.dismiss()
             // open AddWorkoutActivity()
+            startActivity(Intent(this, AddWorkoutActivity::class.java))
         }
 
         view.findViewById<Button>(R.id.btnAddRecipe).setOnClickListener {
