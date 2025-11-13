@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,8 @@ import com.fitnessapp.R
 import com.fitnessapp.data.AppDatabase
 import com.fitnessapp.data.entities.Location
 import com.fitnessapp.ui.auth.LoginActivity
+import com.fitnessapp.ui.main.MainActivity
+import com.fitnessapp.ui.recipes.AddRecipesActivity
 import com.fitnessapp.utils.DatabaseInitializer
 import com.fitnessapp.utils.SessionManager
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -212,34 +215,43 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val view = layoutInflater.inflate(R.layout.popup_add_options, null)
         dialog.setContentView(view)
 
+        // Make buttons visible
+        val buttonIds = listOf(
+            R.id.btnAddWorkout,
+            R.id.btnAddRecipe,
+            R.id.btnLogProgress,
+            R.id.btnCamera,
+            R.id.btnMain
+        )
+
+        buttonIds.forEach { id ->
+            view.findViewById<Button>(id).visibility = View.VISIBLE
+        }
+
+        // === Button Click Handlers ===
         view.findViewById<Button>(R.id.btnAddWorkout).setOnClickListener {
             dialog.dismiss()
-            // open AddWorkoutActivity()
+            // startActivity(Intent(this, AddWorkoutActivity::class.java))
         }
 
         view.findViewById<Button>(R.id.btnAddRecipe).setOnClickListener {
             dialog.dismiss()
-            // open AddRecipeActivity()
+            startActivity(Intent(this, AddRecipesActivity::class.java))
         }
 
         view.findViewById<Button>(R.id.btnLogProgress).setOnClickListener {
             dialog.dismiss()
-            // open LogProgressActivity()
+            // startActivity(Intent(this, LogProgressActivity::class.java))
         }
 
         view.findViewById<Button>(R.id.btnCamera).setOnClickListener {
             dialog.dismiss()
-            // open CameraIntegration()
+            // startActivity(Intent(this, CameraIntegration::class.java))
         }
 
-        // Dynamically set the last button to "Return to Main Page"
-        val btnMap = view.findViewById<Button>(R.id.btnMap)
-        btnMap.text = "Return to Main Page"
-        btnMap.setOnClickListener {
+        view.findViewById<Button>(R.id.btnMain).setOnClickListener {
             dialog.dismiss()
-            val intent = Intent(this, com.fitnessapp.ui.main.MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            startActivity(Intent(this, MainActivity::class.java))
         }
 
         dialog.show()
