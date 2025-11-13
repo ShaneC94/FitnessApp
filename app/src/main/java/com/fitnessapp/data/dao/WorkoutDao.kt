@@ -1,6 +1,7 @@
 package com.fitnessapp.data.dao
 
 import androidx.room.*
+import com.fitnessapp.data.entities.Exercise
 import com.fitnessapp.data.entities.Workout
 import kotlinx.coroutines.flow.Flow
 
@@ -12,6 +13,13 @@ interface WorkoutDao {
     // Retrieves all saved workouts from the local database
     @Query("SELECT * FROM workouts ORDER BY id DESC")
     fun getAllWorkouts(): Flow<List<Workout>>
+
+    //get single workout with that ID
+    @Query("SELECT * FROM workouts WHERE id = :workoutId")
+    suspend fun getWorkoutById(workoutId: Int): Workout?
+    //delete all exercises from that workoutID
+    @Query("Delete FROM exercises WHERE workoutId = :workoutId")
+    suspend fun deleteExercisesByWorkoutID(workoutId: Int)
 
     // Inserts a new workout into the database
     // If a duplicate (same primary key) exists, it will replace the old record
@@ -29,4 +37,11 @@ interface WorkoutDao {
     // Clears all stored workouts from the local database
     @Query("DELETE FROM workouts")
     suspend fun clearAll()
+
+    @Insert
+    suspend fun insertWorkoutAndGetId(workout: Workout): Long // Room returns the new row ID as a Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertExercises(exercises: List<Exercise>)
+
 }

@@ -17,6 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import com.fitnessapp.ui.recipes.RecipesActivity
+import com.fitnessapp.ui.workouts.WorkoutActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
@@ -87,7 +88,7 @@ class RecipesActivity : AppCompatActivity() {
 
         // Workouts button
         findViewById<Button>(R.id.btnWorkouts).setOnClickListener {
-            // startActivity(Intent(this, WorkoutsActivity::class.java))
+            startActivity(Intent(this, WorkoutActivity::class.java))
         }
     }
 
