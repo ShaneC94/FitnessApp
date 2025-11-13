@@ -16,6 +16,7 @@ import com.fitnessapp.data.repositories.RecipeRepository
 import com.fitnessapp.ui.auth.LoginActivity
 import com.fitnessapp.ui.main.MainActivity
 import com.fitnessapp.ui.map.MapActivity
+import com.fitnessapp.ui.workouts.AddWorkoutActivity
 import com.fitnessapp.utils.SessionManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.flow.collectLatest
@@ -132,7 +133,7 @@ class RecipesActivity : AppCompatActivity() {
         // === Button Click Handlers ===
         view.findViewById<Button>(R.id.btnAddWorkout).setOnClickListener {
             dialog.dismiss()
-            // startActivity(Intent(this, AddWorkoutActivity::class.java))
+            startActivity(Intent(this, AddWorkoutActivity::class.java))
         }
 
         view.findViewById<Button>(R.id.btnAddRecipe).setOnClickListener {
