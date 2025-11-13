@@ -2,7 +2,9 @@ package com.fitnessapp.ui.workouts
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +16,8 @@ import com.fitnessapp.data.entities.Workout
 
 import com.fitnessapp.data.repositories.WorkoutRepository
 import com.fitnessapp.ui.auth.LoginActivity
+import com.fitnessapp.ui.main.MainActivity
+import com.fitnessapp.ui.map.MapActivity
 import com.fitnessapp.ui.recipes.AddRecipesActivity
 import com.fitnessapp.ui.recipes.RecipesActivity
 import com.fitnessapp.utils.SessionManager
@@ -31,6 +35,7 @@ class WorkoutActivity : AppCompatActivity() {
     private lateinit var session: SessionManager
     private lateinit var rvWorkouts: RecyclerView
     private lateinit var repository: WorkoutRepository
+    private lateinit var tvGreeting: TextView
     private lateinit var adapter: WorkoutAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +46,8 @@ class WorkoutActivity : AppCompatActivity() {
         db = AppDatabase.getInstance(this)
         repository = WorkoutRepository(db.workoutDao())
 
+        tvGreeting = findViewById(R.id.tvGreeting)
+
         rvWorkouts = findViewById(R.id.rvWorkouts)
         rvWorkouts.layoutManager = LinearLayoutManager(this)
 
@@ -49,6 +56,17 @@ class WorkoutActivity : AppCompatActivity() {
             onWorkoutClicked(workout)
         }
         rvWorkouts.adapter = adapter
+
+        // Personalized greeting
+        lifecycleScope.launch {
+            val userId = session.getUserId()
+            val user = userId?.let { db.userDao().getUserById(it) }
+            if (user != null) {
+                tvGreeting.text = "Pump iron, ${user.username}!"
+            } else {
+                tvGreeting.text = "Pump iron!"
+            }
+        }
 
         loadWorkouts()
         setupNavigation()
@@ -63,8 +81,6 @@ class WorkoutActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-
-
     private fun loadWorkouts() {
         lifecycleScope.launch {
             repository.allWorkouts.collectLatest { workoutList ->
@@ -72,6 +88,7 @@ class WorkoutActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun setupNavigation() {
         // Logout button (top right)
         findViewById<Button>(R.id.btnLogout).setOnClickListener {
@@ -92,19 +109,33 @@ class WorkoutActivity : AppCompatActivity() {
 
         // Workouts button
         findViewById<Button>(R.id.btnWorkouts).setOnClickListener {
-            // startActivity(Intent(this, WorkoutsActivity::class.java))
+            startActivity(Intent(this, WorkoutActivity::class.java))
         }
     }
 
-    // A BottomSheetDialog with multiple options for features that can be implemented later
+    // ===== ADD BUTTON POPUP =====
     private fun showAddPopup() {
         val dialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.popup_add_options, null)
         dialog.setContentView(view)
 
+        // Make ALL buttons visible
+        val buttonIds = listOf(
+            R.id.btnAddWorkout,
+            R.id.btnAddRecipe,
+            R.id.btnLogProgress,
+            R.id.btnCamera,
+            R.id.btnMap,
+            R.id.btnMain
+        )
+
+        buttonIds.forEach { id ->
+            view.findViewById<Button>(id).visibility = View.VISIBLE
+        }
+
+        // === Button Click Handlers ===
         view.findViewById<Button>(R.id.btnAddWorkout).setOnClickListener {
             dialog.dismiss()
-            // open AddWorkoutActivity()
             startActivity(Intent(this, AddWorkoutActivity::class.java))
         }
 
@@ -115,24 +146,23 @@ class WorkoutActivity : AppCompatActivity() {
 
         view.findViewById<Button>(R.id.btnLogProgress).setOnClickListener {
             dialog.dismiss()
-            // open LogProgressActivity()
+            // startActivity(Intent(this, LogProgressActivity::class.java))
         }
 
         view.findViewById<Button>(R.id.btnCamera).setOnClickListener {
             dialog.dismiss()
-            // open CameraIntegration()
+            // startActivity(Intent(this, CameraIntegration::class.java))
         }
 
-        val btnMap = view.findViewById<Button>(R.id.btnMap)
-        btnMap.text = "Return to Main Page"
-        btnMap.setOnClickListener {
+        view.findViewById<Button>(R.id.btnMap).setOnClickListener {
             dialog.dismiss()
-            val intent = Intent(this, com.fitnessapp.ui.main.MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            startActivity(Intent(this, MapActivity::class.java))
         }
 
-
+        view.findViewById<Button>(R.id.btnMain).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, MainActivity::class.java))
+        }
 
         dialog.show()
     }

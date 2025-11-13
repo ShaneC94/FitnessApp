@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground">
+    android:background="@color/colorBackground"
+    android:fitsSystemWindows="true">
 
     <!-- ===== HEADER ===== -->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/headerLayout"
-        android:orientation="horizontal"
-        android:padding="24dp"
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:padding="24dp"
         android:background="@color/colorSurface"
         android:elevation="8dp"
-        android:translationZ="8dp"
-        android:layout_gravity="top">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <!-- Greeting + Quote -->
         <LinearLayout
+            android:id="@+id/llGreetingQuote"
             android:orientation="vertical"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnLogout"
+            android:layout_marginEnd="8dp">
 
             <TextView
                 android:id="@+id/tvGreeting"
@@ -32,32 +37,39 @@
                 android:textStyle="bold"
                 android:textColor="@color/colorTextPrimary"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/tvQuote"
                 android:textSize="14sp"
                 android:textColor="@color/colorTextSecondary"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <!-- Logout button -->
         <Button
             android:id="@+id/btnLogout"
-            android:layout_width="96dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
             android:text="@string/logout"
             android:textSize="12sp"
-            app:tint="@color/colorTextPrimary" />
-    </LinearLayout>
+            app:tint="@color/colorTextPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- Separator line below header -->
     <View
-        android:layout_width="match_parent"
+        android:id="@+id/headerDivider"
+        android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="@color/colorPrimary"
-        android:alpha="0.2" />
+        android:alpha="0.2"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- =====  CARDS ===== -->
     <ScrollView
@@ -95,14 +107,18 @@
     <!-- ===== BOTTOM NAV ===== -->
     <LinearLayout
         android:id="@+id/bottomNav"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="72dp"
-        android:layout_gravity="bottom"
         android:orientation="horizontal"
         android:gravity="center"
         android:background="@color/colorSurface"
         android:elevation="8dp"
-        android:padding="12dp">
+        android:padding="12dp"
+        android:paddingBottom="20dp"
+        android:fitsSystemWindows="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <!-- Recipes -->
         <Button
@@ -111,7 +127,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:drawablePadding="4dp"
-            android:drawableTop="@drawable/outline_kitchen_24" />
+            android:drawableTop="@drawable/outline_kitchen_24"
+            android:contentDescription="@string/recipes" />
 
         <!-- Center FAB -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -132,7 +149,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:drawablePadding="4dp"
-            android:drawableTop="@drawable/outline_exercise_24" />
+            android:drawableTop="@drawable/outline_exercise_24"
+            android:contentDescription="@string/workouts" />
     </LinearLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

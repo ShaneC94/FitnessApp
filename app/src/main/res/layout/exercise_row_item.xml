@@ -3,15 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
-    android:background="@drawable/border_bottom"> <!-- Optional: for a nice separator -->
+    android:paddingVertical="4dp"
+    android:background="@drawable/border_bottom">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:paddingBottom="2dp">
 
         <EditText
             android:id="@+id/et_exercise_name"
@@ -19,21 +19,24 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Exercise Name"
-            android:inputType="textCapWords" />
+            android:paddingVertical="6dp"
+            android:textSize="14sp"
+            android:inputType="textCapWords"/>
 
         <ImageButton
             android:id="@+id/btn_delete_exercise"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:src="@android:drawable/ic_menu_delete"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Delete Exercise" />
+            android:contentDescription="Delete Exercise"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingVertical="2dp">
 
         <EditText
             android:id="@+id/et_sets"
@@ -41,7 +44,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Sets"
-            android:inputType="number" />
+            android:paddingVertical="6dp"
+            android:textSize="14sp"
+            android:inputType="number"/>
 
         <EditText
             android:id="@+id/et_reps"
@@ -49,21 +54,28 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Reps"
-            android:inputType="number" />
+            android:paddingVertical="6dp"
+            android:textSize="14sp"
+            android:inputType="number"/>
 
         <EditText
             android:id="@+id/et_weight"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Weight (kg)"
-            android:inputType="numberDecimal" />
+            android:hint="Weight (lbs)"
+            android:paddingVertical="6dp"
+            android:textSize="14sp"
+            android:inputType="numberDecimal"/>
     </LinearLayout>
+
     <EditText
         android:id="@+id/et_notes"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Notes"
-        />
+        android:hint="Notes (optional)"
+        android:paddingVertical="4dp"
+        android:textSize="13sp"
+        android:maxLines="2"/>
 
 </LinearLayout>

@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fitnessapp.R
 import com.fitnessapp.data.AppDatabase
 import com.fitnessapp.data.entities.Location
+import com.fitnessapp.data.repositories.LocationRepository
+import com.fitnessapp.data.repositories.RecipeRepository
 import com.fitnessapp.ui.auth.LoginActivity
 import com.fitnessapp.ui.main.MainActivity
 import com.fitnessapp.ui.recipes.AddRecipesActivity
@@ -41,6 +43,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var adapter: LocationAdapter
     private val gymList = mutableListOf<Location>()
     private val userLocation = LatLng(43.9442, -78.8964) // Ontario Tech default
+
+    private lateinit var repository: LocationRepository
 
     // Add session for logout and consistency
     private lateinit var tvGreeting: TextView

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +20,6 @@ import com.fitnessapp.utils.SessionManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import com.fitnessapp.ui.recipes.RecipesActivity
 import com.fitnessapp.ui.workouts.WorkoutActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
@@ -30,6 +30,7 @@ class RecipesActivity : AppCompatActivity() {
     private lateinit var session: SessionManager
     private lateinit var rvRecipes: RecyclerView
     private lateinit var repository: RecipeRepository
+    private lateinit var tvGreeting: TextView
     private lateinit var adapter: RecipeAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +41,8 @@ class RecipesActivity : AppCompatActivity() {
         db = AppDatabase.getInstance(this)
         repository = RecipeRepository(db.recipeDao())
 
+        tvGreeting = findViewById(R.id.tvGreeting)
+
         rvRecipes = findViewById(R.id.rvRecipes)
         rvRecipes.layoutManager = LinearLayoutManager(this)
 
@@ -48,6 +51,17 @@ class RecipesActivity : AppCompatActivity() {
             onRecipeClicked(recipe)
         }
         rvRecipes.adapter = adapter
+
+        // Personalized greeting
+        lifecycleScope.launch {
+            val userId = session.getUserId()
+            val user = userId?.let { db.userDao().getUserById(it) }
+            if (user != null) {
+                tvGreeting.text = "Healthy eating is key, ${user.username}!"
+            } else {
+                tvGreeting.text = "Eating healthy is key!"
+            }
+        }
 
         loadRecipes()
         setupNavigation()
