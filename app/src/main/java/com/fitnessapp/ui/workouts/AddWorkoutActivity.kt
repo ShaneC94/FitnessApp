@@ -1,6 +1,7 @@
 package com.fitnessapp.ui.workouts
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -16,7 +18,14 @@ import com.fitnessapp.data.AppDatabase
 import com.fitnessapp.data.entities.Exercise
 import com.fitnessapp.data.entities.Workout
 import com.fitnessapp.data.repositories.WorkoutRepository
+import com.fitnessapp.ui.auth.LoginActivity
+import com.fitnessapp.ui.main.MainActivity
+import com.fitnessapp.ui.map.MapActivity
+import com.fitnessapp.ui.recipes.AddRecipesActivity
+import com.fitnessapp.ui.recipes.RecipesActivity
 import com.fitnessapp.utils.SessionManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
 
 class AddWorkoutActivity : AppCompatActivity() {
@@ -30,7 +39,7 @@ class AddWorkoutActivity : AppCompatActivity() {
     private lateinit var btnAddExercise: Button
     private lateinit var btnSaveWorkout: Button
     private lateinit var btnCloseWorkout: Button
-
+    private lateinit var tvGreeting: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +49,8 @@ class AddWorkoutActivity : AppCompatActivity() {
         db = AppDatabase.getInstance(this)
         repository = WorkoutRepository(db.workoutDao())
 
+        tvGreeting = findViewById(R.id.tvGreeting)
+
         etWorkoutName = findViewById(R.id.et_workout_name)
         etDuration = findViewById(R.id.et_duration)
         llExercisesContainer = findViewById(R.id.ll_exercises_container)
@@ -47,11 +58,20 @@ class AddWorkoutActivity : AppCompatActivity() {
         btnSaveWorkout = findViewById(R.id.btn_save_workout)
         btnCloseWorkout = findViewById(R.id.btn_close_workout)
 
+        // Personalized greeting
+        lifecycleScope.launch {
+            val userId = session.getUserId()
+            val user = userId?.let { db.userDao().getUserById(it) }
+            if (user != null) {
+                tvGreeting.text = "Pump iron, ${user.username}!"
+            } else {
+                tvGreeting.text = "Pump iron!"
+            }
+        }
+
         btnCloseWorkout.setOnClickListener {
             finish()
         }
-
-
 
         // Add one exercise row by default to start
         addExerciseView()
@@ -62,6 +82,8 @@ class AddWorkoutActivity : AppCompatActivity() {
         btnSaveWorkout.setOnClickListener {
             saveWorkout()
         }
+
+        setupNavigation()
     }
 
     private fun saveWorkout() {
@@ -137,7 +159,77 @@ class AddWorkoutActivity : AppCompatActivity() {
         llExercisesContainer.addView(exerciseView)
     }
 
+    private fun setupNavigation() {
+        // Logout button (top right)
+        findViewById<Button>(R.id.btnLogout).setOnClickListener {
+            session.clearSession()
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
 
+        // Floating action button (+)
+        findViewById<FloatingActionButton>(R.id.fabAdd).setOnClickListener {
+            showAddPopup()
+        }
+
+        // Recipes button
+        findViewById<Button>(R.id.btnRecipes).setOnClickListener {
+            startActivity(Intent(this, RecipesActivity::class.java))
+        }
+
+        // Workouts button
+        findViewById<Button>(R.id.btnWorkouts).setOnClickListener {
+            startActivity(Intent(this, WorkoutActivity::class.java))
+        }
+    }
+
+    // ===== ADD BUTTON POPUP =====
+    private fun showAddPopup() {
+        val dialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.popup_add_options, null)
+        dialog.setContentView(view)
+
+        // Make ALL buttons visible
+        val buttonIds = listOf(
+            R.id.btnAddRecipe,
+            R.id.btnLogProgress,
+            R.id.btnCamera,
+            R.id.btnMap,
+            R.id.btnMain
+        )
+
+        buttonIds.forEach { id ->
+            view.findViewById<Button>(id).visibility = View.VISIBLE
+        }
+
+        // === Button Click Handlers ===
+        view.findViewById<Button>(R.id.btnAddRecipe).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, AddRecipesActivity::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnLogProgress).setOnClickListener {
+            dialog.dismiss()
+            // startActivity(Intent(this, LogProgressActivity::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnCamera).setOnClickListener {
+            dialog.dismiss()
+            // startActivity(Intent(this, CameraIntegration::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnMap).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, MapActivity::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnMain).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+
+        dialog.show()
+    }
 }
 
 

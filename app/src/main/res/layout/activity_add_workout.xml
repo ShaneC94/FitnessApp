@@ -1,92 +1,212 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".ui.workouts.AddWorkoutActivity">
+    android:background="@color/colorBackground"
+    android:fitsSystemWindows="true">
 
-    <!-- Workout Name -->
-    <EditText
-        android:id="@+id/et_workout_name"
+    <!-- ===== HEADER ===== -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/headerLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Workout Name (e.g., Leg Day)"
-        android:inputType="textCapWords"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="24dp"
+        android:background="@color/colorSurface"
+        android:elevation="8dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- Workout Duration -->
-    <EditText
-        android:id="@+id/et_duration"
+        <!-- Greeting + Quote -->
+        <LinearLayout
+            android:id="@+id/llGreetingQuote"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnLogout"
+            android:layout_marginEnd="8dp">
+
+            <TextView
+                android:id="@+id/tvGreeting"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorTextPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tvQuote"
+                android:textSize="14sp"
+                android:textColor="@color/colorTextSecondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- Logout button -->
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="@string/logout"
+            android:textSize="12sp"
+            app:tint="@color/colorTextPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Separator line below header -->
+    <View
+        android:id="@+id/headerDivider"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="Duration (minutes)"
-        android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"
+        android:alpha="0.2"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_workout_name" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Container for Save/Back buttons -->
+    <!-- ===== MAIN FORM CONTENT ===== -->
+    <ScrollView
+        android:id="@+id/sv_exercises"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/headerDivider"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/et_workout_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Workout Name (e.g., Leg Day)"
+                android:inputType="textCapWords"/>
+
+            <EditText
+                android:id="@+id/et_duration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="Duration (minutes)"
+                android:inputType="number"/>
+
+            <Button
+                android:id="@+id/btn_add_exercise"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="+ Add Exercise"/>
+
+            <LinearLayout
+                android:id="@+id/ll_exercises_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="12dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Save/Back -->
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#22000000"
+        app:layout_constraintBottom_toTopOf="@id/ll_bottom_buttons"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <LinearLayout
         android:id="@+id/ll_bottom_buttons"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:paddingHorizontal="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:background="@color/colorSurface"
+        android:elevation="8dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+    <Button
+            android:id="@+id/btn_close_workout"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="Back" />
 
         <Button
             android:id="@+id/btn_save_workout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginEnd="8dp"
             android:text="Save Workout" />
-
-        <Button
-            android:id="@+id/btn_close_workout"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Back" />
     </LinearLayout>
 
-    <!-- "+ Add Exercise" Button -->
-    <Button
-        android:id="@+id/btn_add_exercise"
-        style="?attr/borderlessButtonStyle"
+    <!-- ===== BOTTOM NAV ===== -->
+    <LinearLayout
+        android:id="@+id/bottomNav"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="+ Add Exercise"
-        app:layout_constraintBottom_toTopOf="@+id/ll_bottom_buttons"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <!-- List of Exercises -->
-    <ScrollView
-        android:id="@+id/sv_exercises"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_add_exercise"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="72dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@color/colorSurface"
+        android:elevation="8dp"
+        android:padding="12dp"
+        android:paddingBottom="20dp"
+        android:fitsSystemWindows="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_duration">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
-            android:id="@+id/ll_exercises_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
+        <!-- Recipes -->
+        <Button
+            android:id="@+id/btnRecipes"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:drawablePadding="4dp"
+            android:drawableTop="@drawable/outline_kitchen_24"
+            android:contentDescription="@string/recipes" />
 
-    </ScrollView>
+        <!-- Center FAB -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAdd"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginHorizontal="16dp"
+            android:elevation="4dp"
+            android:contentDescription="@string/add_button"
+            app:backgroundTint="@color/colorPrimary"
+            app:tint="@android:color/white"
+            android:src="@drawable/outline_add_24" />
+
+        <!-- Workouts -->
+        <Button
+            android:id="@+id/btnWorkouts"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:drawablePadding="4dp"
+            android:drawableTop="@drawable/outline_exercise_24"
+            android:contentDescription="@string/workouts" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
