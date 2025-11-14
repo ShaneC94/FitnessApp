@@ -178,7 +178,10 @@ class MainActivity : AppCompatActivity() {
             R.id.btnAddRecipe,
             R.id.btnLogProgress,
             R.id.btnCamera,
-            R.id.btnMap
+            R.id.btnMap,
+            R.id.btnMain,
+            R.id.btnChat
+
         )
 
         buttonIds.forEach { id ->
@@ -210,6 +213,12 @@ class MainActivity : AppCompatActivity() {
             dialog.dismiss()
             startActivity(Intent(this, MapActivity::class.java))
         }
+
+        view.findViewById<Button>(R.id.btnChat).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, com.fitnessapp.ui.chat.ChatActivity::class.java))
+        }
+
 
         dialog.show()
     }

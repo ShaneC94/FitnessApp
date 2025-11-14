@@ -1,74 +1,86 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:background="@color/colorSurface"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/colorSurface"
+    android:orientation="vertical"
+    android:padding="24dp">
 
     <Button
         android:id="@+id/btnAddWorkout"
-        android:text="@string/add_workout"
-        android:textAllCaps="false"
-        android:backgroundTint="@color/colorSecondary"
-        android:textColor="@android:color/white"
-        android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/colorSecondary"
+        android:text="@string/add_workout"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btnAddRecipe"
-        android:text="@string/add_recipe"
-        android:textAllCaps="false"
-        android:backgroundTint="@color/colorSecondary"
-        android:textColor="@android:color/white"
-        android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/colorSecondary"
+        android:text="@string/add_recipe"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
+
 
     <Button
         android:id="@+id/btnLogProgress"
-        android:text="@string/log_progress"
-        android:textAllCaps="false"
-        android:backgroundTint="@color/colorAccent"
-        android:textColor="@android:color/white"
-        android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="@string/log_progress"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btnChat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/colorPrimaryVariant"
+        android:text="AI Chat"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btnCamera"
-        android:text="@string/camera_scan"
-        android:textAllCaps="false"
-        android:backgroundTint="@color/colorPrimaryVariant"
-        android:textColor="@android:color/white"
-        android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/colorPrimaryVariant"
+        android:text="@string/camera_scan"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btnMap"
-        android:text="@string/find_gym"
-        android:textAllCaps="false"
-        android:backgroundTint="@color/colorPrimaryVariant"
-        android:textColor="@android:color/white"
-        android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/colorPrimaryVariant"
+        android:text="@string/find_gym"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btnMain"
-        android:text="@string/return_to_main"
-        android:textAllCaps="false"
-        android:backgroundTint="@color/colorAccent"
-        android:textColor="@android:color/white"
-        android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="@string/return_to_main"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
         android:visibility="gone" />
 
 </LinearLayout>
