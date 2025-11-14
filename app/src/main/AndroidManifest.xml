@@ -69,5 +69,10 @@
             android:name=".ui.workouts.WorkoutDetailActivity"
             android:exported="false" />
 
+        <!-- Popular Exercises -->
+        <activity
+            android:name="com.fitnessapp.ui.popularExercises.PopularExercisesActivity"
+            android:exported="false" />
+
     </application>
 </manifest>

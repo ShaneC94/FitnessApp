@@ -141,7 +141,9 @@ class WorkoutActivity : AppCompatActivity() {
             R.id.btnLogProgress,
             R.id.btnCamera,
             R.id.btnMap,
-            R.id.btnMain
+            R.id.btnMain,
+            R.id.btnChat,
+            R.id.btnPopularExercises
         )
 
         buttonIds.forEach { id ->
@@ -177,6 +179,14 @@ class WorkoutActivity : AppCompatActivity() {
         view.findViewById<Button>(R.id.btnMain).setOnClickListener {
             dialog.dismiss()
             startActivity(Intent(this, MainActivity::class.java))
+        }
+        view.findViewById<Button>(R.id.btnChat).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, com.fitnessapp.ui.chat.ChatActivity::class.java))
+        }
+        view.findViewById<Button>(R.id.btnPopularExercises)?.setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, com.fitnessapp.ui.popularExercises.PopularExercisesActivity::class.java))
         }
 
         dialog.show()
