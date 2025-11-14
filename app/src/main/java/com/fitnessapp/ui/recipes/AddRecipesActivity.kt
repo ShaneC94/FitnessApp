@@ -14,8 +14,10 @@ import com.fitnessapp.data.AppDatabase
 import com.fitnessapp.data.entities.Recipe
 import com.fitnessapp.data.repositories.RecipeRepository
 import com.fitnessapp.ui.auth.LoginActivity
+import com.fitnessapp.ui.chat.ChatActivity
 import com.fitnessapp.ui.main.MainActivity
 import com.fitnessapp.ui.map.MapActivity
+import com.fitnessapp.ui.popularExercises.PopularExercisesActivity
 import com.fitnessapp.ui.workouts.AddWorkoutActivity
 import com.fitnessapp.ui.workouts.WorkoutActivity
 import com.fitnessapp.utils.SessionManager
@@ -141,7 +143,6 @@ class AddRecipesActivity : AppCompatActivity() {
             R.id.btnMain,
             R.id.btnChat,
             R.id.btnPopularExercises
-
         )
 
         buttonIds.forEach { id ->
@@ -174,15 +175,20 @@ class AddRecipesActivity : AppCompatActivity() {
             startActivity(Intent(this, MapActivity::class.java))
         }
 
-        view.findViewById<Button>(R.id.btnChat).setOnClickListener {
+        view.findViewById<Button>(R.id.btnMain).setOnClickListener {
             dialog.dismiss()
-            startActivity(Intent(this, com.fitnessapp.ui.chat.ChatActivity::class.java))
-        }
-        view.findViewById<Button>(R.id.btnPopularExercises)?.setOnClickListener {
-            dialog.dismiss()
-            startActivity(Intent(this, com.fitnessapp.ui.popularExercises.PopularExercisesActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
         }
 
+        view.findViewById<Button>(R.id.btnChat).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, ChatActivity::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnPopularExercises)?.setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, PopularExercisesActivity::class.java))
+        }
 
         dialog.show()
     }

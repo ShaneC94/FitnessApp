@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fitnessapp.R
 import com.fitnessapp.data.AppDatabase
 import com.fitnessapp.ui.auth.LoginActivity
+import com.fitnessapp.ui.chat.ChatActivity
 import com.fitnessapp.ui.map.MapActivity
+import com.fitnessapp.ui.popularExercises.PopularExercisesActivity
 import com.fitnessapp.ui.recipes.AddRecipesActivity
 import com.fitnessapp.ui.recipes.RecipeAdapter
 import com.fitnessapp.ui.recipes.RecipeDetailActivity
@@ -182,8 +184,6 @@ class MainActivity : AppCompatActivity() {
             R.id.btnMain,
             R.id.btnChat,
             R.id.btnPopularExercises
-
-
         )
 
         buttonIds.forEach { id ->
@@ -195,7 +195,6 @@ class MainActivity : AppCompatActivity() {
             dialog.dismiss()
             startActivity(Intent(this, AddWorkoutActivity::class.java))
         }
-
 
         view.findViewById<Button>(R.id.btnAddRecipe).setOnClickListener {
             dialog.dismiss()
@@ -212,21 +211,25 @@ class MainActivity : AppCompatActivity() {
             // startActivity(Intent(this, CameraIntegration::class.java))
         }
 
-
         view.findViewById<Button>(R.id.btnMap).setOnClickListener {
             dialog.dismiss()
             startActivity(Intent(this, MapActivity::class.java))
         }
 
-        view.findViewById<Button>(R.id.btnChat).setOnClickListener {
+        view.findViewById<Button>(R.id.btnMain).setOnClickListener {
             dialog.dismiss()
-            startActivity(Intent(this, com.fitnessapp.ui.chat.ChatActivity::class.java))
-        }
-        view.findViewById<Button>(R.id.btnPopularExercises)?.setOnClickListener {
-            dialog.dismiss()
-            startActivity(Intent(this, com.fitnessapp.ui.popularExercises.PopularExercisesActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
         }
 
+        view.findViewById<Button>(R.id.btnChat).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, ChatActivity::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnPopularExercises)?.setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, PopularExercisesActivity::class.java))
+        }
 
         dialog.show()
     }
