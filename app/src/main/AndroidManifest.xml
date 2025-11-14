@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitnessTracker">
 
+        <activity android:name=".ui.chat.ChatActivity" />
+
+
         <!-- Google Maps API Key (securely injected via Gradle placeholders) -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
