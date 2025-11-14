@@ -52,9 +52,16 @@ class WorkoutActivity : AppCompatActivity() {
         rvWorkouts.layoutManager = LinearLayoutManager(this)
 
         //lambda function passed in handles clicks on the workout
-        adapter = WorkoutAdapter(emptyList()) {workout ->
-            onWorkoutClicked(workout)
-        }
+        adapter = WorkoutAdapter(
+            workouts = emptyList(),
+            onItemClicked = { workout ->
+                onWorkoutClicked(workout)
+        },
+            onFavoriteToggled = { workout, isChecked ->
+                toggleFavorite(workout, isChecked)
+            }
+        )
+
         rvWorkouts.adapter = adapter
 
         // Personalized greeting
@@ -71,6 +78,14 @@ class WorkoutActivity : AppCompatActivity() {
         loadWorkouts()
         setupNavigation()
     }
+
+    private fun toggleFavorite(workout: Workout, isChecked: Boolean) {
+        lifecycleScope.launch {
+            val updatedWorkout = workout.copy(isFavorite = isChecked)
+            db.workoutDao().updateWorkout(updatedWorkout)
+        }
+    }
+
     private fun onWorkoutClicked(workout: Workout) {
         // intent to navigate to your new details activity
         val intent = Intent(this, WorkoutDetailActivity::class.java)

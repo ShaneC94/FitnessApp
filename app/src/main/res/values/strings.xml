@@ -21,6 +21,8 @@
     <string name="full_name">Full Name</string>
     <string name="workout_title">Workout Title</string>
     <string name="duration_exercises">Duration • Exercises</string>
+    <string name="favorite_workouts">Favorite Workouts</string>
+    <string name="favorite_recipes">Favorite Recipes</string>
 
 
     <string-array name="quotes">

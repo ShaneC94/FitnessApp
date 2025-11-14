@@ -14,12 +14,17 @@ import com.fitnessapp.data.AppDatabase
 import com.fitnessapp.ui.auth.LoginActivity
 import com.fitnessapp.ui.map.MapActivity
 import com.fitnessapp.ui.recipes.AddRecipesActivity
+import com.fitnessapp.ui.recipes.RecipeAdapter
+import com.fitnessapp.ui.recipes.RecipeDetailActivity
 import com.fitnessapp.ui.recipes.RecipesActivity
 import com.fitnessapp.ui.workouts.AddWorkoutActivity
 import com.fitnessapp.ui.workouts.WorkoutActivity
+import com.fitnessapp.ui.workouts.WorkoutAdapter
+import com.fitnessapp.ui.workouts.WorkoutDetailActivity
 import com.fitnessapp.utils.SessionManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -31,7 +36,11 @@ class MainActivity : AppCompatActivity() {
     // UI Components
     private lateinit var tvGreeting: TextView
     private lateinit var tvQuote: TextView
-    private lateinit var rvFavorites: RecyclerView
+    private lateinit var rvFavoriteWorkouts: RecyclerView
+    private lateinit var rvFavoriteRecipes: RecyclerView
+
+    private lateinit var favoriteWorkoutAdapter: WorkoutAdapter
+    private lateinit var favoriteRecipeAdapter: RecipeAdapter
 
     // Motivational quotes loaded from strings.xml for easy localization
     private lateinit var quotes: Array<String>
@@ -53,7 +62,8 @@ class MainActivity : AppCompatActivity() {
         // Init UI components
         tvGreeting = findViewById(R.id.tvGreeting)
         tvQuote = findViewById(R.id.tvQuote)
-        rvFavorites = findViewById(R.id.rvFavorites)
+        rvFavoriteWorkouts = findViewById(R.id.rvFavoriteWorkouts)
+        rvFavoriteRecipes = findViewById(R.id.rvFavoriteRecipes)
 
         // Load quotes and display a random one
         quotes = resources.getStringArray(R.array.quotes)
@@ -78,15 +88,58 @@ class MainActivity : AppCompatActivity() {
 
     // Inits RecyclerView with static sample data - should be replaced with dynamic content from DB or API
     private fun setupRecycler() {
-        rvFavorites.layoutManager = LinearLayoutManager(this)
-        rvFavorites.adapter = FavoriteAdapter(
-            listOf(
-                FavoriteItem("Push Day", "60 min • 7 exercises"),
-                FavoriteItem("Pull Day", "60 min • 6 exercises"),
-                FavoriteItem("Leg Day", "75 min • 5 exercises"),
-                FavoriteItem("Cardio + Core", "30 min • HIIT")
-            )
+        // Favorite Workouts
+        rvFavoriteWorkouts.layoutManager = LinearLayoutManager(this)
+        favoriteWorkoutAdapter = WorkoutAdapter(
+            workouts = emptyList(),
+            onItemClicked = { workout ->
+                val intent = Intent(this, WorkoutDetailActivity::class.java)
+                intent.putExtra("WORKOUT_ID", workout.id)
+                startActivity(intent)
+            },
+            onFavoriteToggled = { workout, isChecked ->
+                // Optional: allow direct toggling from main screen
+                lifecycleScope.launch {
+                    val updated = workout.copy(isFavorite = isChecked)
+                    db.workoutDao().updateWorkout(updated)
+                }
+            }
         )
+
+        rvFavoriteWorkouts.adapter = favoriteWorkoutAdapter
+
+        // Favorite Recipes
+        rvFavoriteRecipes.layoutManager = LinearLayoutManager(this)
+        favoriteRecipeAdapter = RecipeAdapter(
+            recipes = emptyList(),
+            onItemClicked = { recipe ->
+                val intent = Intent(this, RecipeDetailActivity::class.java)
+                intent.putExtra("RECIPE_ID", recipe.id)
+                startActivity(intent)
+            },
+            onFavoriteToggled = { recipe, isChecked ->
+                lifecycleScope.launch {
+                    val updated = recipe.copy(isFavorite = isChecked)
+                    db.recipeDao().updateRecipe(updated)
+                }
+            }
+        )
+
+        rvFavoriteRecipes.adapter = favoriteRecipeAdapter
+
+        // Live Workout Favorites
+        lifecycleScope.launch {
+            db.workoutDao().getFavoriteWorkouts().collectLatest { favWorkouts ->
+                favoriteWorkoutAdapter.updateWorkouts(favWorkouts)
+            }
+        }
+
+        // Live Recipe Favorites
+        lifecycleScope.launch {
+            db.recipeDao().getFavoriteRecipes().collectLatest { favRecipes ->
+                favoriteRecipeAdapter.updateRecipes(favRecipes)
+            }
+        }
     }
 
     private fun setupNavigation() {
