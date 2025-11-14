@@ -1,92 +1,75 @@
-package com.fitnessapp.ui.workouts
+package com.fitnessapp.ui.popularExercises
 
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fitnessapp.R
-import com.fitnessapp.data.AppDatabase
-
-import com.fitnessapp.data.entities.Workout
-
-import com.fitnessapp.data.repositories.WorkoutRepository
+import com.fitnessapp.data.entities.PopularExercise
 import com.fitnessapp.ui.auth.LoginActivity
 import com.fitnessapp.ui.main.MainActivity
 import com.fitnessapp.ui.map.MapActivity
 import com.fitnessapp.ui.recipes.AddRecipesActivity
 import com.fitnessapp.ui.recipes.RecipesActivity
+import com.fitnessapp.ui.workouts.AddWorkoutActivity
+import com.fitnessapp.ui.workouts.WorkoutActivity
 import com.fitnessapp.utils.SessionManager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
-
-import com.fitnessapp.ui.workouts.WorkoutAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
+class PopularExercisesActivity : AppCompatActivity() {
 
-class WorkoutActivity : AppCompatActivity() {
-
-    private lateinit var db: AppDatabase
     private lateinit var session: SessionManager
-    private lateinit var rvWorkouts: RecyclerView
-    private lateinit var repository: WorkoutRepository
+
     private lateinit var tvGreeting: TextView
-    private lateinit var adapter: WorkoutAdapter
+
+    private lateinit var tvQuote: TextView
+
+    // Properties for the RecyclerView and its Adapter
+    private lateinit var popularExercisesRecyclerView: RecyclerView
+    private lateinit var popularExercisesAdapter: PopularExercisesAdapter
+    private var exerciseList = mutableListOf<PopularExercise>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_workouts)
+        // 1. Set the main activity layout
+        setContentView(R.layout.activity_popular_exercises)
 
         session = SessionManager(this)
-        db = AppDatabase.getInstance(this)
-        repository = WorkoutRepository(db.workoutDao())
 
         tvGreeting = findViewById(R.id.tvGreeting)
+        tvQuote = findViewById(R.id.tvQuote)
 
-        rvWorkouts = findViewById(R.id.rvWorkouts)
-        rvWorkouts.layoutManager = LinearLayoutManager(this)
+        tvGreeting.text = "Popular Exercises"
+        tvQuote.text = "Excel in these Exercises with Proper Form"
 
-        //lambda function passed in handles clicks on the workout
-        adapter = WorkoutAdapter(emptyList()) {workout ->
-            onWorkoutClicked(workout)
-        }
-        rvWorkouts.adapter = adapter
+        // 2. Find the RecyclerView by its ID from the activity's layout
+        popularExercisesRecyclerView = findViewById(R.id.recyclerViewExercises)
 
-        // Personalized greeting
-        lifecycleScope.launch {
-            val userId = session.getUserId()
-            val user = userId?.let { db.userDao().getUserById(it) }
-            if (user != null) {
-                tvGreeting.text = "Pump iron, ${user.username}!"
-            } else {
-                tvGreeting.text = "Pump iron!"
-            }
-        }
+        // 3. Prepare the data that the adapter will use
+        prepareExerciseData()
 
-        loadWorkouts()
+        // 4. Create an instance of your adapter, passing in the data list
+        popularExercisesAdapter = PopularExercisesAdapter(lifecycle, exerciseList)
+
+        // 5. Set up the RecyclerView's layout manager and attach the adapter
+        popularExercisesRecyclerView.layoutManager = LinearLayoutManager(this)
+        popularExercisesRecyclerView.adapter = popularExercisesAdapter
+
         setupNavigation()
     }
-    private fun onWorkoutClicked(workout: Workout) {
-        // intent to navigate to your new details activity
-        val intent = Intent(this, WorkoutDetailActivity::class.java)
 
-        // Pass the unique ID of the clicked recipe to the next activity
-        intent.putExtra("WORKOUT_ID", workout.id)
+    private fun prepareExerciseData() {
+        exerciseList.add(PopularExercise("Jumping Jacks", "CWpmIW6l-YA"))
+        exerciseList.add(PopularExercise("Push Ups", "WDIpL0pjun0"))
+        exerciseList.add(PopularExercise("Squats", "YaXPRqUwItQ"))
+        exerciseList.add(PopularExercise("Plank", "6LqqeBtFn9M"))
+        exerciseList.add(PopularExercise("Burpees", "G2hv_NYhM-A"))
 
-        startActivity(intent)
-    }
-
-    private fun loadWorkouts() {
-        lifecycleScope.launch {
-            repository.allWorkouts.collectLatest { workoutList ->
-                adapter.updateWorkouts(workoutList)
-            }
-        }
     }
 
     private fun setupNavigation() {
@@ -164,10 +147,8 @@ class WorkoutActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
-
-
         dialog.show()
     }
+
+
 }
-
-

@@ -14,6 +14,7 @@ import com.fitnessapp.data.entities.Location
 import com.fitnessapp.data.entities.Recipe
 import com.fitnessapp.data.entities.Workout
 import com.fitnessapp.data.entities.Exercise
+import com.fitnessapp.data.entities.PopularExercise
 
 // The main Room database for the Fitness App
 // Defines DB config and is the main access point for connecting to persisted data

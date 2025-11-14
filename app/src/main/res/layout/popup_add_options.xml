@@ -6,6 +6,17 @@
     android:layout_height="wrap_content">
 
     <Button
+        android:id="@+id/btnPopularExercises"
+        android:text="@string/popular_exercises"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/colorSecondary"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
+    <Button
         android:id="@+id/btnAddWorkout"
         android:text="@string/add_workout"
         android:textAllCaps="false"

@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.material.v1120)
     implementation(libs.androidx.constraintlayout.v220)
     implementation(libs.androidx.cardview)
+    implementation(libs.androidx.recyclerview)
 
     // Room Database
     implementation(libs.androidx.room.runtime)
@@ -79,4 +80,8 @@ dependencies {
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
     implementation(libs.places)
+
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:13.0.0")
+
+
 }

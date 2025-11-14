@@ -13,6 +13,7 @@ import com.fitnessapp.R
 import com.fitnessapp.data.AppDatabase
 import com.fitnessapp.ui.auth.LoginActivity
 import com.fitnessapp.ui.map.MapActivity
+import com.fitnessapp.ui.popularExercises.PopularExercisesActivity
 import com.fitnessapp.ui.recipes.AddRecipesActivity
 import com.fitnessapp.ui.recipes.RecipesActivity
 import com.fitnessapp.ui.workouts.AddWorkoutActivity
@@ -84,7 +85,7 @@ class MainActivity : AppCompatActivity() {
                 FavoriteItem("Push Day", "60 min • 7 exercises"),
                 FavoriteItem("Pull Day", "60 min • 6 exercises"),
                 FavoriteItem("Leg Day", "75 min • 5 exercises"),
-                FavoriteItem("Cardio + Core", "30 min • HIIT")
+                FavoriteItem("Cardio + Core", "30 min •     HIIT")
             )
         )
     }
@@ -121,6 +122,7 @@ class MainActivity : AppCompatActivity() {
 
         // Make ALL buttons visible
         val buttonIds = listOf(
+            R.id.btnPopularExercises,
             R.id.btnAddWorkout,
             R.id.btnAddRecipe,
             R.id.btnLogProgress,
@@ -158,6 +160,15 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, MapActivity::class.java))
         }
 
+        view.findViewById<Button>(R.id.btnPopularExercises).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, PopularExercisesActivity::class.java))
+        }
+
         dialog.show()
     }
+
 }
+
+
+
