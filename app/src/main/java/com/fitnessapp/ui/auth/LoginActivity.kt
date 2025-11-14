@@ -27,9 +27,11 @@ class LoginActivity : AppCompatActivity() {
         sessionManager = SessionManager(this)
 
         // Skip login if already logged in
-        sessionManager.getUserId()?.let {
+        val storedId = sessionManager.getUserId()
+        if (storedId != null && storedId > 0) {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
+            return
         }
 
         val username = findViewById<EditText>(R.id.etUsername)
@@ -37,12 +39,11 @@ class LoginActivity : AppCompatActivity() {
         val loginBtn = findViewById<Button>(R.id.btnLogin)
         val registerBtn = findViewById<Button>(R.id.btnRegister)
 
-        // Login button logic
         loginBtn.setOnClickListener {
-            lifecycleScope.launch {
                 val inputUsername = username.text.toString().trim()
                 val inputPassword = password.text.toString()
 
+            lifecycleScope.launch {
                 // Ensure both fields are filled
                 if (inputUsername.isEmpty() || inputPassword.isEmpty()) {
                     Toast.makeText(this@LoginActivity, "Please fill in all fields", Toast.LENGTH_SHORT).show()
@@ -55,6 +56,8 @@ class LoginActivity : AppCompatActivity() {
 
                 if (user != null && user.passwordHash == hashedInput) {
                     sessionManager.saveUserSession(user.id)
+                    Toast.makeText(this@LoginActivity, "Welcome back, ${user.name}!", Toast.LENGTH_SHORT).show()
+
                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                     finish()
                 } else {

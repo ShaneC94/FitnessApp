@@ -16,12 +16,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fitnessapp.R
 import com.fitnessapp.data.AppDatabase
 import com.fitnessapp.data.entities.Location
-import com.fitnessapp.data.repositories.LocationRepository
-import com.fitnessapp.data.repositories.RecipeRepository
 import com.fitnessapp.ui.auth.LoginActivity
-import com.fitnessapp.ui.main.MainActivity
 import com.fitnessapp.ui.recipes.AddRecipesActivity
+import com.fitnessapp.ui.recipes.RecipesActivity
 import com.fitnessapp.ui.workouts.AddWorkoutActivity
+import com.fitnessapp.ui.workouts.WorkoutActivity
 import com.fitnessapp.utils.DatabaseInitializer
 import com.fitnessapp.utils.SessionManager
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -44,8 +43,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var adapter: LocationAdapter
     private val gymList = mutableListOf<Location>()
     private val userLocation = LatLng(43.9442, -78.8964) // Ontario Tech default
-
-    private lateinit var repository: LocationRepository
 
     // Add session for logout and consistency
     private lateinit var tvGreeting: TextView
@@ -203,14 +200,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // Recipes Button
         findViewById<Button>(R.id.btnRecipes)?.setOnClickListener {
-            // startActivity(Intent(this, RecipesActivity::class.java))
+            startActivity(Intent(this, RecipesActivity::class.java))
         }
 
         // Workouts Button
-        findViewById<Button>(R.id.btnWorkouts)?.setOnClickListener {
-            val intent = Intent(this, com.fitnessapp.ui.main.MainActivity::class.java)
-            startActivity(intent)
-            finish()
+        findViewById<Button>(R.id.btnWorkouts).setOnClickListener {
+            startActivity(Intent(this, WorkoutActivity::class.java))
         }
     }
 
