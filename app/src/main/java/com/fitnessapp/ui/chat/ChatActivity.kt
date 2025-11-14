@@ -24,6 +24,7 @@ import com.fitnessapp.utils.SessionManager
 import com.fitnessapp.ui.auth.LoginActivity
 import com.fitnessapp.ui.main.MainActivity
 import com.fitnessapp.ui.map.MapActivity
+import com.fitnessapp.ui.popularExercises.PopularExercisesActivity
 import com.fitnessapp.ui.recipes.AddRecipesActivity
 import com.fitnessapp.ui.recipes.RecipesActivity
 import com.fitnessapp.ui.workouts.AddWorkoutActivity
@@ -194,16 +195,16 @@ class ChatActivity : AppCompatActivity() {
             dialog.dismiss()
             startActivity(Intent(this, MainActivity::class.java))
         }
-        view.findViewById<Button>(R.id.btnPopularExercises)?.setOnClickListener {
-            dialog.dismiss()
-            startActivity(Intent(this, com.fitnessapp.ui.popularExercises.PopularExercisesActivity::class.java))
-        }
 
         view.findViewById<Button>(R.id.btnChat).setOnClickListener {
             dialog.dismiss()
-            startActivity(Intent(this, com.fitnessapp.ui.chat.ChatActivity::class.java))
+            startActivity(Intent(this, ChatActivity::class.java))
         }
 
+        view.findViewById<Button>(R.id.btnPopularExercises)?.setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, PopularExercisesActivity::class.java))
+        }
 
         dialog.show()
     }

@@ -17,6 +17,9 @@ import com.fitnessapp.R
 import com.fitnessapp.data.AppDatabase
 import com.fitnessapp.data.entities.Location
 import com.fitnessapp.ui.auth.LoginActivity
+import com.fitnessapp.ui.chat.ChatActivity
+import com.fitnessapp.ui.main.MainActivity
+import com.fitnessapp.ui.popularExercises.PopularExercisesActivity
 import com.fitnessapp.ui.recipes.AddRecipesActivity
 import com.fitnessapp.ui.recipes.RecipesActivity
 import com.fitnessapp.ui.workouts.AddWorkoutActivity
@@ -257,13 +260,19 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             startActivity(Intent(this, MapActivity::class.java))
         }
 
+        view.findViewById<Button>(R.id.btnMain).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+
         view.findViewById<Button>(R.id.btnChat).setOnClickListener {
             dialog.dismiss()
-            startActivity(Intent(this, com.fitnessapp.ui.chat.ChatActivity::class.java))
+            startActivity(Intent(this, ChatActivity::class.java))
         }
+
         view.findViewById<Button>(R.id.btnPopularExercises)?.setOnClickListener {
             dialog.dismiss()
-            startActivity(Intent(this, com.fitnessapp.ui.popularExercises.PopularExercisesActivity::class.java))
+            startActivity(Intent(this, PopularExercisesActivity::class.java))
         }
 
         dialog.show()
