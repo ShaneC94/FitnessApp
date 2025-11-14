@@ -48,9 +48,16 @@ class RecipesActivity : AppCompatActivity() {
         rvRecipes.layoutManager = LinearLayoutManager(this)
 
         //lambda function passed in handles clicks on the recipe
-        adapter = RecipeAdapter(emptyList()) {recipe ->
-            onRecipeClicked(recipe)
-        }
+        adapter = RecipeAdapter(
+            emptyList(),
+            onItemClicked = { recipe -> onRecipeClicked(recipe) },
+            onFavoriteToggled = { recipe, isChecked ->
+                lifecycleScope.launch {
+                    val updated = recipe.copy(isFavorite = isChecked)
+                    db.recipeDao().updateRecipe(updated)
+                }
+            }
+        )
         rvRecipes.adapter = adapter
 
         // Personalized greeting

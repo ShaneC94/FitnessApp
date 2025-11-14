@@ -44,4 +44,6 @@ interface WorkoutDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertExercises(exercises: List<Exercise>)
 
+    @Query("SELECT * FROM workouts WHERE isFavorite = 1")
+    fun getFavoriteWorkouts(): Flow<List<Workout>>
 }
