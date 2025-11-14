@@ -19,7 +19,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var btnSend: ImageButton
     private lateinit var adapter: ChatAdapter
 
-    private val apiKey = "API_KEY"
+    private val apiKey = "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"
     private val api by lazy { OpenAIApi.create(apiKey) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
