@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import com.fitnessapp.R
 import com.fitnessapp.data.AppDatabase
 import com.fitnessapp.data.entities.User
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import java.security.MessageDigest
 
@@ -28,29 +29,63 @@ class RegisterActivity : AppCompatActivity() {
         val registerBtn = findViewById<Button>(R.id.btnRegister)
 
         registerBtn.setOnClickListener {
+
+            val inputUsername = username.text.toString().trim().lowercase()
+            val inputName = name.text.toString().trim()
+            val inputPassword = password.text.toString()
+
+            if (inputUsername.isEmpty() || inputName.isEmpty() || inputPassword.isEmpty()) {
+                Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (inputUsername.length < 4) {
+                Toast.makeText(this, "Username must be at least 4 characters", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (!isStrongPassword(inputPassword)) {
+                Snackbar.make(
+                    findViewById(android.R.id.content),
+                    "Password must be at least 8 characters," +
+                            "include at least 1 uppercase, 1 lowercase, " +
+                            "1 number, and 1 special character.",
+                    Snackbar.LENGTH_LONG
+                ).show()
+                return@setOnClickListener
+            }
+
             val user = User(
-                username = username.text.toString(),
-                passwordHash = hash(password.text.toString()), // Securely hashes password
-                name = name.text.toString()
+                username = inputUsername,
+                passwordHash = hash(inputPassword),
+                name = inputName
             )
 
-            // Launch a coroutine for DB ops (Room can't run on the main thread)
             lifecycleScope.launch {
                 try {
                     db.userDao().registerUser(user)
                     Toast.makeText(this@RegisterActivity, "Registered! Please log in.", Toast.LENGTH_SHORT).show()
                     finish()
                 } catch (e: Exception) {
-                    Toast.makeText(this@RegisterActivity, "Username already exists!", Toast.LENGTH_SHORT).show()
+                    if (e.message?.contains("UNIQUE", ignoreCase = true) == true ||
+                        e.message?.contains("unique", ignoreCase = true) == true) {
+                        Toast.makeText(this@RegisterActivity, "Username is already taken", Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(this@RegisterActivity, "Registration failed", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }
     }
 
-    // Hashes the password using SHA-256 for secure storage (not in plain text)
+    private fun isStrongPassword(password: String): Boolean {
+        val strongPasswordRegex =
+            Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@\$!%*?&])[A-Za-z\\d@\$!%*?&]{8,}$")
+        return strongPasswordRegex.matches(password)
+    }
+
     private fun hash(input: String): String {
         val bytes = MessageDigest.getInstance("SHA-256").digest(input.toByteArray())
-        // Convert bytes to a lowercase hexadecimal string
         return bytes.joinToString("") { "%02x".format(it) }
     }
 }
