@@ -8,15 +8,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.fitnessapp.R
-import com.fitnessapp.data.entities.Recipe
 import com.fitnessapp.data.entities.Workout
 
 //adapts data from workouts to the recycler view
 //takes in a list of Workout objects called 'workouts'
 //it inherits from RecyclerView.Adapter and takes in a RecipeViewHolder
 class WorkoutAdapter (var workouts: List<Workout>,
-    // Handles clicks and passes the clicked Recipe (object)
-                      private val onItemClicked: (Workout) -> Unit
+                      private val onItemClicked: (Workout) -> Unit,
+                      private val onFavoriteToggled: (Workout, Boolean) -> Unit
 ): RecyclerView.Adapter<WorkoutAdapter.WorkoutViewHolder>() {
 
     //holds the views of recycler view from rv_workout_row.xml
@@ -47,20 +46,27 @@ class WorkoutAdapter (var workouts: List<Workout>,
         holder: WorkoutViewHolder,
         position: Int
     ) {
+        val workout = workouts[position]
+
         //access the itemview of the row
         //assigns properties of the Workout object to the views of the row
         holder.workoutNameTextView.text = workouts[position].name
-        holder.workoutDurationTextView.text = "${workouts[position].durationMinutes} minutes"
-        holder.favoriteCheckBox.isChecked = workouts[position].isFavorite
+        holder.workoutDurationTextView.text = "${workout.durationMinutes} minutes"
+
+        holder.favoriteCheckBox.setOnCheckedChangeListener (null)
+        holder.favoriteCheckBox.isChecked = workout.isFavorite
+
+        holder.favoriteCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            onFavoriteToggled(workout, isChecked)
+        }
+
         holder.itemView.setOnClickListener {
             onItemClicked(workouts[position]) //current workout in the list
         }
     }
 
     //returns the size of the list of workouts in the recyclerview
-    override fun getItemCount(): Int {
-        return workouts.size
-    }
+    override fun getItemCount(): Int = workouts.size
 
     fun updateWorkouts(newList: List<Workout>) {
         val diffResult = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
@@ -75,6 +81,7 @@ class WorkoutAdapter (var workouts: List<Workout>,
                 return workouts[oldItemPosition] == newList[newItemPosition]
             }
         })
+
         workouts = newList
         diffResult.dispatchUpdatesTo(this)
     }

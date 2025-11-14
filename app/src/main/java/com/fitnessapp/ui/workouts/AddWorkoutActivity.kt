@@ -191,11 +191,14 @@ class AddWorkoutActivity : AppCompatActivity() {
 
         // Make ALL buttons visible
         val buttonIds = listOf(
+            R.id.btnAddWorkout,
             R.id.btnAddRecipe,
             R.id.btnLogProgress,
             R.id.btnCamera,
             R.id.btnMap,
-            R.id.btnMain
+            R.id.btnMain,
+            R.id.btnChat
+
         )
 
         buttonIds.forEach { id ->
@@ -203,6 +206,11 @@ class AddWorkoutActivity : AppCompatActivity() {
         }
 
         // === Button Click Handlers ===
+        view.findViewById<Button>(R.id.btnAddWorkout).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, AddWorkoutActivity::class.java))
+        }
+
         view.findViewById<Button>(R.id.btnAddRecipe).setOnClickListener {
             dialog.dismiss()
             startActivity(Intent(this, AddRecipesActivity::class.java))
@@ -223,13 +231,12 @@ class AddWorkoutActivity : AppCompatActivity() {
             startActivity(Intent(this, MapActivity::class.java))
         }
 
-        view.findViewById<Button>(R.id.btnMain).setOnClickListener {
+        view.findViewById<Button>(R.id.btnChat).setOnClickListener {
             dialog.dismiss()
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, com.fitnessapp.ui.chat.ChatActivity::class.java))
         }
+
 
         dialog.show()
     }
 }
-
-

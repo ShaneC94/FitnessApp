@@ -37,4 +37,7 @@ interface RecipeDao {
 
     @Query("SELECT * FROM recipes WHERE id = :recipeId")
     suspend fun getRecipeById(recipeId: Int): Recipe?
+
+    @Query("SELECT * FROM recipes WHERE isFavorite = 1")
+    fun getFavoriteRecipes(): Flow<List<Recipe>>
 }
