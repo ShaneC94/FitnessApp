@@ -1,98 +1,82 @@
-package com.fitnessapp.ui.recipes
+package com.fitnessapp.ui.popularExercises
 
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fitnessapp.R
-import com.fitnessapp.data.AppDatabase
-import com.fitnessapp.data.entities.Recipe
-import com.fitnessapp.data.repositories.RecipeRepository
+import com.fitnessapp.data.entities.PopularExercise
 import com.fitnessapp.ui.auth.LoginActivity
 import com.fitnessapp.ui.main.MainActivity
 import com.fitnessapp.ui.map.MapActivity
+import com.fitnessapp.ui.recipes.AddRecipesActivity
+import com.fitnessapp.ui.recipes.RecipesActivity
 import com.fitnessapp.ui.workouts.AddWorkoutActivity
-import com.fitnessapp.utils.SessionManager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import com.fitnessapp.ui.workouts.WorkoutActivity
+import com.fitnessapp.utils.SessionManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
+class PopularExercisesActivity : AppCompatActivity() {
 
-class RecipesActivity : AppCompatActivity() {
-
-    private lateinit var db: AppDatabase
+    // Declare Session Manager for User Session Handling
     private lateinit var session: SessionManager
-    private lateinit var rvRecipes: RecyclerView
-    private lateinit var repository: RecipeRepository
+
+    // Declare TextViews for displaying greeting and quote
     private lateinit var tvGreeting: TextView
-    private lateinit var adapter: RecipeAdapter
+    private lateinit var tvQuote: TextView
+
+    // Properties for the RecyclerView and its Adapter
+    private lateinit var popularExercisesRecyclerView: RecyclerView
+    private lateinit var popularExercisesAdapter: PopularExercisesAdapter
+    private var exerciseList = mutableListOf<PopularExercise>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_recipes)
+        // Set the popular exercises layout for this activity
+        setContentView(R.layout.activity_popular_exercises)
 
+        // Initialize the Session Manager
         session = SessionManager(this)
-        db = AppDatabase.getInstance(this)
-        repository = RecipeRepository(db.recipeDao())
 
+        // Set the text for greeting and motivational quote
         tvGreeting = findViewById(R.id.tvGreeting)
+        tvQuote = findViewById(R.id.tvQuote)
 
-        rvRecipes = findViewById(R.id.rvRecipes)
-        rvRecipes.layoutManager = LinearLayoutManager(this)
+        tvGreeting.text = "Popular Exercises"
+        tvQuote.text = "Excel in these Exercises with Proper Form"
 
-        //lambda function passed in handles clicks on the recipe
-        adapter = RecipeAdapter(
-            emptyList(),
-            onItemClicked = { recipe -> onRecipeClicked(recipe) },
-            onFavoriteToggled = { recipe, isChecked ->
-                lifecycleScope.launch {
-                    val updated = recipe.copy(isFavorite = isChecked)
-                    db.recipeDao().updateRecipe(updated)
-                }
-            }
-        )
-        rvRecipes.adapter = adapter
+        // Initialize the RecyclerView by finding its ID
+        popularExercisesRecyclerView = findViewById(R.id.recyclerViewExercises)
 
-        // Personalized greeting
-        lifecycleScope.launch {
-            val userId = session.getUserId()
-            val user = userId?.let { db.userDao().getUserById(it) }
-            if (user != null) {
-                tvGreeting.text = "Healthy eating is key, ${user.username}!"
-            } else {
-                tvGreeting.text = "Eating healthy is key!"
-            }
-        }
+        // Prepare data displayed in Recycler View
+        prepareExerciseData()
 
-        loadRecipes()
+        // Initialize adapter for the RecyclerView
+        popularExercisesAdapter = PopularExercisesAdapter(lifecycle, exerciseList)
+
+        // Set up the RecyclerView's layout manager and attach the adapter
+        popularExercisesRecyclerView.layoutManager = LinearLayoutManager(this)
+        popularExercisesRecyclerView.adapter = popularExercisesAdapter
+
         setupNavigation()
     }
-    private fun onRecipeClicked(recipe: Recipe) {
-        // intent to navigate to your new details activity
-        val intent = Intent(this, RecipeDetailActivity::class.java)
 
-        // Pass the unique ID of the clicked recipe to the next activity
-        intent.putExtra("RECIPE_ID", recipe.id)
+    // Add the Different Exercise names and the Youtube Video URLs
+    private fun prepareExerciseData() {
+        exerciseList.add(PopularExercise("Jumping Jacks", "CWpmIW6l-YA"))
+        exerciseList.add(PopularExercise("Push Ups", "WDIpL0pjun0"))
+        exerciseList.add(PopularExercise("Squats", "YaXPRqUwItQ"))
+        exerciseList.add(PopularExercise("Plank", "6LqqeBtFn9M"))
+        exerciseList.add(PopularExercise("Burpees", "G2hv_NYhM-A"))
 
-        startActivity(intent)
     }
 
-
-
-    private fun loadRecipes() {
-        lifecycleScope.launch {
-            repository.allRecipes.collectLatest { recipeList ->
-                adapter.updateRecipes(recipeList)
-            }
-        }
-    }
+    // Method to setup Navigation (buttons and actions)
     private fun setupNavigation() {
         // Logout button (top right)
         findViewById<Button>(R.id.btnLogout).setOnClickListener {
@@ -169,17 +153,18 @@ class RecipesActivity : AppCompatActivity() {
             dialog.dismiss()
             startActivity(Intent(this, MainActivity::class.java))
         }
-        view.findViewById<Button>(R.id.btnChat).setOnClickListener {
-            dialog.dismiss()
-            startActivity(Intent(this, com.fitnessapp.ui.chat.ChatActivity::class.java))
-        }
         view.findViewById<Button>(R.id.btnPopularExercises)?.setOnClickListener {
             dialog.dismiss()
             startActivity(Intent(this, com.fitnessapp.ui.popularExercises.PopularExercisesActivity::class.java))
         }
 
+        view.findViewById<Button>(R.id.btnChat).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, com.fitnessapp.ui.chat.ChatActivity::class.java))
+        }
+
         dialog.show()
     }
+
+
 }
-
-

@@ -228,8 +228,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             R.id.btnCamera,
             R.id.btnMap,
             R.id.btnMain,
-            R.id.btnChat
-
+            R.id.btnChat,
+            R.id.btnPopularExercises
         )
 
         buttonIds.forEach { id ->
@@ -266,7 +266,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             dialog.dismiss()
             startActivity(Intent(this, com.fitnessapp.ui.chat.ChatActivity::class.java))
         }
-
+        view.findViewById<Button>(R.id.btnPopularExercises)?.setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, com.fitnessapp.ui.popularExercises.PopularExercisesActivity::class.java))
+        }
 
         dialog.show()
     }

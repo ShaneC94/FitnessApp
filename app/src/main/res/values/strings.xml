@@ -23,6 +23,8 @@
     <string name="duration_exercises">Duration • Exercises</string>
     <string name="favorite_workouts">Favorite Workouts</string>
     <string name="favorite_recipes">Favorite Recipes</string>
+    <string name="popular_exercises">Popular Exercises</string>
+
 
 
     <string-array name="quotes">

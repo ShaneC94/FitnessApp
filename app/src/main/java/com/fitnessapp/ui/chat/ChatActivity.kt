@@ -1,17 +1,40 @@
 package com.fitnessapp.ui.chat
 
-import com.fitnessapp.BuildConfig
+// Android + Kotlin imports
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+
+// Material components
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+
+// App utilities
+import com.fitnessapp.BuildConfig
 import com.fitnessapp.R
+import com.fitnessapp.utils.SessionManager
+
+// Navigation targets (Activities)
+import com.fitnessapp.ui.auth.LoginActivity
+import com.fitnessapp.ui.main.MainActivity
+import com.fitnessapp.ui.map.MapActivity
+import com.fitnessapp.ui.recipes.AddRecipesActivity
+import com.fitnessapp.ui.recipes.RecipesActivity
+import com.fitnessapp.ui.workouts.AddWorkoutActivity
+import com.fitnessapp.ui.workouts.WorkoutActivity
+
+// Coroutines
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 
 
 class ChatActivity : AppCompatActivity() {
@@ -22,6 +45,8 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var btnSend: ImageButton // Send button
     private lateinit var adapter: ChatAdapter // Recycler View Adapter
 
+    private lateinit var session: SessionManager  // <--- ADD THIS HERE
+
     // Loads our OpenAI API key securely from BuildConfig generated using secret.properties
     private val apiKey = BuildConfig.OPENAI_API_KEY
 
@@ -31,6 +56,10 @@ class ChatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+
+        session = SessionManager(this)   // <--- ADD THIS
+        setupNavigation()                // <--- ADD THIS
+
 
         // Initialize UI elements
         rvChat = findViewById(R.id.rvChat)
@@ -86,5 +115,101 @@ class ChatActivity : AppCompatActivity() {
                 }
             }
         }
+
     }
+    // Method to setup Navigation (buttons and actions)
+    private fun setupNavigation() {
+        // Logout button (top right)
+        findViewById<Button>(R.id.btnLogout).setOnClickListener {
+            session.clearSession()
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
+
+        // Floating action button (+)
+        findViewById<FloatingActionButton>(R.id.fabAdd).setOnClickListener {
+            showAddPopup()
+        }
+
+        // Recipes button
+        findViewById<Button>(R.id.btnRecipes).setOnClickListener {
+            startActivity(Intent(this, RecipesActivity::class.java))
+        }
+
+        // Workouts button
+        findViewById<Button>(R.id.btnWorkouts).setOnClickListener {
+            startActivity(Intent(this, WorkoutActivity::class.java))
+        }
+    }
+
+    // ===== ADD BUTTON POPUP =====
+    private fun showAddPopup() {
+        val dialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.popup_add_options, null)
+        dialog.setContentView(view)
+
+        // Make ALL buttons visible
+        val buttonIds = listOf(
+            R.id.btnAddWorkout,
+            R.id.btnAddRecipe,
+            R.id.btnLogProgress,
+            R.id.btnCamera,
+            R.id.btnMap,
+            R.id.btnMain,
+            R.id.btnChat,
+            R.id.btnPopularExercises
+        )
+
+        buttonIds.forEach { id ->
+            view.findViewById<Button>(id).visibility = View.VISIBLE
+        }
+
+        // === Button Click Handlers ===
+        view.findViewById<Button>(R.id.btnAddWorkout).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, AddWorkoutActivity::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnAddRecipe).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, AddRecipesActivity::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnLogProgress).setOnClickListener {
+            dialog.dismiss()
+            // startActivity(Intent(this, LogProgressActivity::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnCamera).setOnClickListener {
+            dialog.dismiss()
+            // startActivity(Intent(this, CameraIntegration::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnMap).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, MapActivity::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnMain).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+        view.findViewById<Button>(R.id.btnPopularExercises)?.setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, com.fitnessapp.ui.popularExercises.PopularExercisesActivity::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnChat).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, com.fitnessapp.ui.chat.ChatActivity::class.java))
+        }
+
+
+        dialog.show()
+    }
+
+
 }
+
+
+
