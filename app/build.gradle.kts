@@ -27,19 +27,18 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        // Inject Google Maps API key
+        // Inject OpenAI API key
+        buildConfigField(
+            "String",
+            "OPENAI_API_KEY",
+            "\"${secretsProperties["OPENAI_API_KEY"] ?: ""}\""
+        )
+        // Inject Google Maps API Key
         buildConfigField(
             "String",
             "MAPS_API_KEY",
             "\"${secretsProperties["MAPS_API_KEY"] ?: ""}\""
         )
-
-        buildConfigField(
-            "String",
-            "OPENAI_API_KEY",
-            "\"${project.findProperty("OPENAI_API_KEY") ?: ""}\""
-        )
-
 
 
         manifestPlaceholders["MAPS_API_KEY"] = secretsProperties["MAPS_API_KEY"] ?: ""
