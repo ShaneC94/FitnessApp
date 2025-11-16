@@ -40,8 +40,10 @@ class LoginActivity : AppCompatActivity() {
                     sessionManager.clearSession()
                 }
             }
+        }
 
-            return
+        if (storedId != null && storedId < 0) {
+            sessionManager.clearSession()
         }
 
         val username = findViewById<EditText>(R.id.etUsername)

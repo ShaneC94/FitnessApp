@@ -1,10 +1,12 @@
 package com.fitnessapp.ui.recipes
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -38,6 +40,16 @@ class AddRecipesActivity : AppCompatActivity() {
     private lateinit var btnSaveRecipe: Button
     private lateinit var btnCloseRecipe: Button
     private lateinit var tvGreeting: TextView
+    private lateinit var imagePreview: ImageView
+    private lateinit var btnAddPhoto: Button
+    private lateinit var btnRemovePhoto: Button
+
+    private var selectedImageUri: String? = null
+
+    companion object {
+        private const val PICK_IMAGE = 1001
+    }
+
 
 
 
@@ -58,6 +70,9 @@ class AddRecipesActivity : AppCompatActivity() {
         etCalories = findViewById(R.id.editText_calories)
         btnSaveRecipe = findViewById(R.id.button_save_recipe)
         btnCloseRecipe = findViewById(R.id.button_close_recipe)
+        imagePreview = findViewById(R.id.image_recipe_preview)
+        btnAddPhoto = findViewById(R.id.button_add_photo)
+        btnRemovePhoto = findViewById(R.id.button_remove_photo)
 
         // Personalized greeting
         lifecycleScope.launch {
@@ -113,7 +128,8 @@ class AddRecipesActivity : AppCompatActivity() {
                 ingredients = ingredients,
                 instructions = instructions,
                 preparationTime = preparationTime,
-                calories = calories
+                calories = calories,
+                imageUri = selectedImageUri
             )
 
             lifecycleScope.launch {
@@ -125,7 +141,30 @@ class AddRecipesActivity : AppCompatActivity() {
             }
         }
 
+        btnAddPhoto.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, PICK_IMAGE)
+        }
+
+        btnRemovePhoto.setOnClickListener {
+            selectedImageUri = null
+            imagePreview.setImageResource(R.drawable.ic_placeholder_image)
+        }
+
         setupNavigation()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK) {
+            val uri = data?.data
+            if (uri != null) {
+                selectedImageUri = uri.toString()
+                imagePreview.setImageURI(uri)
+            }
+        }
     }
 
     private fun setupNavigation() {
