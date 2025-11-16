@@ -26,11 +26,21 @@ class LoginActivity : AppCompatActivity() {
         db = AppDatabase.getInstance(this)
         sessionManager = SessionManager(this)
 
-        // Skip login if already logged in
         val storedId = sessionManager.getUserId()
         if (storedId != null && storedId > 0) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+            lifecycleScope.launch {
+                val user = db.userDao().getUserById(storedId)
+
+                if (user != null) {
+                    // User exists -> safe to skip login
+                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                    finish()
+                } else {
+                    // User was deleted because DB reset after schema change
+                    sessionManager.clearSession()
+                }
+            }
+
             return
         }
 

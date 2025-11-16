@@ -75,14 +75,36 @@ class AddRecipesActivity : AppCompatActivity() {
         }
 
         btnSaveRecipe.setOnClickListener {
-            val recipeName = etRecipeName.text.toString()
-            val ingredients = etIngredients.text.toString()
-            val instructions = etInstructions.text.toString()
-            val preparationTime = etPreparationTime.text.toString().toInt()
-            val calories = etCalories.text.toString().toInt()
+            val recipeName = etRecipeName.text.toString().trim()
+            val ingredients = etIngredients.text.toString().trim()
+            val instructions = etInstructions.text.toString().trim()
+            val prepTimeStr = etPreparationTime.text.toString().trim()
+            val caloriesStr = etCalories.text.toString().trim()
 
-            if (recipeName.isBlank() || ingredients.isBlank() || instructions.isBlank() || preparationTime == null || calories == null) {
-                Toast.makeText(this, "Please fill out all fields.", Toast.LENGTH_SHORT).show()
+            if (recipeName.isBlank()) {
+                Toast.makeText(this, "Please enter a recipe name.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (ingredients.isBlank()) {
+                Toast.makeText(this, "Please enter ingredients.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (instructions.isBlank()) {
+                Toast.makeText(this, "Please enter instructions.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val preparationTime = prepTimeStr.toIntOrNull()
+            if (preparationTime == null || preparationTime <= 0) {
+                Toast.makeText(this, "Please enter a valid preparation time.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val calories = caloriesStr.toIntOrNull()
+            if (calories == null || calories < 0) {
+                Toast.makeText(this, "Please enter valid calories.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -96,6 +118,9 @@ class AddRecipesActivity : AppCompatActivity() {
 
             lifecycleScope.launch {
                 repository.insert(newRecipe)
+                Toast.makeText(this@AddRecipesActivity, "Recipe saved!", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this@AddRecipesActivity, RecipesActivity::class.java)
+                startActivity(intent)
                 finish()
             }
         }
