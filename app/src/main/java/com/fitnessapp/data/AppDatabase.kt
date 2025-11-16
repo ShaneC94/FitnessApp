@@ -18,7 +18,7 @@ import com.fitnessapp.data.entities.Exercise
 // The main Room database for the Fitness App
 // Defines DB config and is the main access point for connecting to persisted data
 // Manages DAO instances and DB creation
-@Database(entities = [User::class, Location::class, Recipe::class, Workout::class, Exercise::class], version = 7, exportSchema = false)
+@Database(entities = [User::class, Location::class, Recipe::class, Workout::class, Exercise::class], version = 8, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     // Provides access to DAO methods for the user entity
     abstract fun userDao(): UserDao

@@ -19,13 +19,12 @@ import com.fitnessapp.ui.main.MainActivity
 import com.fitnessapp.ui.map.MapActivity
 import com.fitnessapp.ui.popularExercises.PopularExercisesActivity
 import com.fitnessapp.ui.workouts.AddWorkoutActivity
+import com.fitnessapp.ui.workouts.WorkoutActivity
 import com.fitnessapp.utils.SessionManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import com.fitnessapp.ui.workouts.WorkoutActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
-
 
 class RecipesActivity : AppCompatActivity() {
 
@@ -45,11 +44,9 @@ class RecipesActivity : AppCompatActivity() {
         repository = RecipeRepository(db.recipeDao())
 
         tvGreeting = findViewById(R.id.tvGreeting)
-
         rvRecipes = findViewById(R.id.rvRecipes)
         rvRecipes.layoutManager = LinearLayoutManager(this)
 
-        //lambda function passed in handles clicks on the recipe
         adapter = RecipeAdapter(
             emptyList(),
             onItemClicked = { recipe -> onRecipeClicked(recipe) },
@@ -62,31 +59,24 @@ class RecipesActivity : AppCompatActivity() {
         )
         rvRecipes.adapter = adapter
 
-        // Personalized greeting
         lifecycleScope.launch {
             val userId = session.getUserId()
             val user = userId?.let { db.userDao().getUserById(it) }
-            if (user != null) {
-                tvGreeting.text = "Healthy eating is key, ${user.username}!"
-            } else {
-                tvGreeting.text = "Eating healthy is key!"
-            }
+            tvGreeting.text = if (user != null)
+                "Healthy eating is key, ${user.username}!"
+            else
+                "Eating healthy is key!"
         }
 
         loadRecipes()
         setupNavigation()
     }
+
     private fun onRecipeClicked(recipe: Recipe) {
-        // intent to navigate to your new details activity
         val intent = Intent(this, RecipeDetailActivity::class.java)
-
-        // Pass the unique ID of the clicked recipe to the next activity
         intent.putExtra("RECIPE_ID", recipe.id)
-
         startActivity(intent)
     }
-
-
 
     private fun loadRecipes() {
         lifecycleScope.launch {
@@ -95,37 +85,32 @@ class RecipesActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun setupNavigation() {
-        // Logout button (top right)
         findViewById<Button>(R.id.btnLogout).setOnClickListener {
             session.clearSession()
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
 
-        // Floating action button (+)
         findViewById<FloatingActionButton>(R.id.fabAdd).setOnClickListener {
             showAddPopup()
         }
 
-        // Recipes button
         findViewById<Button>(R.id.btnRecipes).setOnClickListener {
             startActivity(Intent(this, RecipesActivity::class.java))
         }
 
-        // Workouts button
         findViewById<Button>(R.id.btnWorkouts).setOnClickListener {
             startActivity(Intent(this, WorkoutActivity::class.java))
         }
     }
 
-    // ===== ADD BUTTON POPUP =====
     private fun showAddPopup() {
         val dialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.popup_add_options, null)
         dialog.setContentView(view)
 
-        // Make ALL buttons visible
         val buttonIds = listOf(
             R.id.btnAddWorkout,
             R.id.btnAddRecipe,
@@ -141,7 +126,6 @@ class RecipesActivity : AppCompatActivity() {
             view.findViewById<Button>(id).visibility = View.VISIBLE
         }
 
-        // === Button Click Handlers ===
         view.findViewById<Button>(R.id.btnAddWorkout).setOnClickListener {
             dialog.dismiss()
             startActivity(Intent(this, AddWorkoutActivity::class.java))
@@ -152,14 +136,8 @@ class RecipesActivity : AppCompatActivity() {
             startActivity(Intent(this, AddRecipesActivity::class.java))
         }
 
-        view.findViewById<Button>(R.id.btnLogProgress).setOnClickListener {
-            dialog.dismiss()
-            // startActivity(Intent(this, LogProgressActivity::class.java))
-        }
-
         view.findViewById<Button>(R.id.btnCamera).setOnClickListener {
             dialog.dismiss()
-            // startActivity(Intent(this, CameraIntegration::class.java))
         }
 
         view.findViewById<Button>(R.id.btnMap).setOnClickListener {
@@ -177,7 +155,7 @@ class RecipesActivity : AppCompatActivity() {
             startActivity(Intent(this, ChatActivity::class.java))
         }
 
-        view.findViewById<Button>(R.id.btnPopularExercises)?.setOnClickListener {
+        view.findViewById<Button>(R.id.btnPopularExercises).setOnClickListener {
             dialog.dismiss()
             startActivity(Intent(this, PopularExercisesActivity::class.java))
         }
@@ -185,5 +163,3 @@ class RecipesActivity : AppCompatActivity() {
         dialog.show()
     }
 }
-
-
