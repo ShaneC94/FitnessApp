@@ -140,6 +140,8 @@ class AddWorkoutActivity : AppCompatActivity() {
 
 
             Toast.makeText(this@AddWorkoutActivity, "Workout Saved!", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this@AddWorkoutActivity, WorkoutActivity::class.java)
+            startActivity(intent)
             finish()
         }
     }
