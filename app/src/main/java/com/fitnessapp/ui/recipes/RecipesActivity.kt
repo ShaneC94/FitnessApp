@@ -47,6 +47,7 @@ class RecipesActivity : AppCompatActivity() {
         rvRecipes = findViewById(R.id.rvRecipes)
         rvRecipes.layoutManager = LinearLayoutManager(this)
 
+        // Adapter setup with click listeners
         adapter = RecipeAdapter(
             emptyList(),
             onItemClicked = { recipe -> onRecipeClicked(recipe) },
@@ -59,25 +60,26 @@ class RecipesActivity : AppCompatActivity() {
         )
         rvRecipes.adapter = adapter
 
+        // Personalized greeting
         lifecycleScope.launch {
             val userId = session.getUserId()
             val user = userId?.let { db.userDao().getUserById(it) }
-            tvGreeting.text = if (user != null)
-                "Healthy eating is key, ${user.username}!"
-            else
-                "Eating healthy is key!"
+            tvGreeting.text = user?.let { "Healthy eating is key, ${it.username}!" }
+                ?: "Eating healthy is key!"
         }
 
         loadRecipes()
         setupNavigation()
     }
 
+    // Opens detail view when a recipe is clicked
     private fun onRecipeClicked(recipe: Recipe) {
         val intent = Intent(this, RecipeDetailActivity::class.java)
         intent.putExtra("RECIPE_ID", recipe.id)
         startActivity(intent)
     }
 
+    // Collects recipe data from database continuously
     private fun loadRecipes() {
         lifecycleScope.launch {
             repository.allRecipes.collectLatest { recipeList ->
@@ -86,6 +88,7 @@ class RecipesActivity : AppCompatActivity() {
         }
     }
 
+    // Bottom navigation and buttons
     private fun setupNavigation() {
         findViewById<Button>(R.id.btnLogout).setOnClickListener {
             session.clearSession()
@@ -106,25 +109,19 @@ class RecipesActivity : AppCompatActivity() {
         }
     }
 
+    // Floating action button popup menu
     private fun showAddPopup() {
         val dialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.popup_add_options, null)
         dialog.setContentView(view)
 
-        val buttonIds = listOf(
-            R.id.btnAddWorkout,
-            R.id.btnAddRecipe,
-            R.id.btnLogProgress,
-            R.id.btnCamera,
-            R.id.btnMap,
-            R.id.btnMain,
-            R.id.btnChat,
-            R.id.btnPopularExercises
+        // Show all option buttons
+        val ids = listOf(
+            R.id.btnAddWorkout, R.id.btnAddRecipe, R.id.btnLogProgress,
+            R.id.btnCamera, R.id.btnMap, R.id.btnMain,
+            R.id.btnChat, R.id.btnPopularExercises
         )
-
-        buttonIds.forEach { id ->
-            view.findViewById<Button>(id).visibility = View.VISIBLE
-        }
+        ids.forEach { view.findViewById<Button>(it).visibility = View.VISIBLE }
 
         view.findViewById<Button>(R.id.btnAddWorkout).setOnClickListener {
             dialog.dismiss()
@@ -134,10 +131,6 @@ class RecipesActivity : AppCompatActivity() {
         view.findViewById<Button>(R.id.btnAddRecipe).setOnClickListener {
             dialog.dismiss()
             startActivity(Intent(this, AddRecipesActivity::class.java))
-        }
-
-        view.findViewById<Button>(R.id.btnCamera).setOnClickListener {
-            dialog.dismiss()
         }
 
         view.findViewById<Button>(R.id.btnMap).setOnClickListener {

@@ -196,17 +196,24 @@
                 android:layout_marginTop="12dp">
 
                 <Button
+                    android:id="@+id/button_remove_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Remove" />
+
+                <Button
                     android:id="@+id/button_add_photo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Add Photo"/>
 
                 <Button
-                    android:id="@+id/button_remove_photo"
+                    android:id="@+id/button_add_gallery"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Remove"
-                    android:layout_marginStart="16dp"/>
+                    android:text="Choose from Gallery" />
+
             </LinearLayout>
 
         </LinearLayout>
