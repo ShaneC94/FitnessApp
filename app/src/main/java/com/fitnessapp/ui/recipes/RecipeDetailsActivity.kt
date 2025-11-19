@@ -4,9 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +19,15 @@ import com.fitnessapp.data.repositories.RecipeRepository
 import com.fitnessapp.utils.SessionManager
 import kotlinx.coroutines.launch
 import androidx.core.net.toUri
+import com.fitnessapp.ui.auth.LoginActivity
+import com.fitnessapp.ui.chat.ChatActivity
+import com.fitnessapp.ui.main.MainActivity
+import com.fitnessapp.ui.map.MapActivity
+import com.fitnessapp.ui.popularExercises.PopularExercisesActivity
+import com.fitnessapp.ui.workouts.AddWorkoutActivity
+import com.fitnessapp.ui.workouts.WorkoutActivity
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class RecipeDetailActivity : AppCompatActivity() {
 
@@ -34,7 +45,7 @@ class RecipeDetailActivity : AppCompatActivity() {
     private lateinit var imagePreview: ImageView
     private lateinit var btnAddPhoto: Button
     private lateinit var btnRemovePhoto: Button
-
+    private lateinit var tvGreeting: TextView
     private var currentRecipeId: Int = -1
     private var currentImageUri: String? = null
 
@@ -49,6 +60,7 @@ class RecipeDetailActivity : AppCompatActivity() {
         session = SessionManager(this)
         db = AppDatabase.getInstance(this)
         repository = RecipeRepository(db.recipeDao())
+        tvGreeting = findViewById(R.id.tvGreeting)
 
         etRecipeName = findViewById(R.id.editText_recipe_name)
         etIngredients = findViewById(R.id.editText_ingredients)
@@ -62,6 +74,8 @@ class RecipeDetailActivity : AppCompatActivity() {
         imagePreview = findViewById(R.id.image_recipe_preview)
         btnAddPhoto = findViewById(R.id.button_add_photo)
         btnRemovePhoto = findViewById(R.id.button_remove_photo)
+
+
 
         currentRecipeId = intent.getIntExtra("RECIPE_ID", -1)
 
@@ -85,6 +99,15 @@ class RecipeDetailActivity : AppCompatActivity() {
             finish()
         }
 
+        lifecycleScope.launch {
+            val userId = session.getUserId()
+            val user = userId?.let { db.userDao().getUserById(it) }
+            tvGreeting.text = if (user != null)
+                "Healthy eating is key, ${user.username}!"
+            else
+                "Eating healthy is key!"
+        }
+
         btnCloseRecipe.setOnClickListener { finish() }
 
         btnUpdateRecipe.setOnClickListener { updateRecipe() }
@@ -99,6 +122,8 @@ class RecipeDetailActivity : AppCompatActivity() {
             currentImageUri = null
             imagePreview.setImageResource(R.drawable.ic_placeholder_image)
         }
+
+        setupNavigation()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -156,5 +181,96 @@ class RecipeDetailActivity : AppCompatActivity() {
             Toast.makeText(this@RecipeDetailActivity, "Recipe updated successfully.", Toast.LENGTH_SHORT).show()
             finish()
         }
+    }
+
+    private fun setupNavigation() {
+        // Logout button (top right)
+        findViewById<Button>(R.id.btnLogout).setOnClickListener {
+            session.clearSession()
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
+
+        // Floating action button (+)
+        findViewById<FloatingActionButton>(R.id.fabAdd).setOnClickListener {
+            showAddPopup()
+        }
+
+        // Recipes button
+        findViewById<Button>(R.id.btnRecipes).setOnClickListener {
+            startActivity(Intent(this, RecipesActivity::class.java))
+        }
+
+        // Workouts button
+        findViewById<Button>(R.id.btnWorkouts).setOnClickListener {
+            startActivity(Intent(this, WorkoutActivity::class.java))
+        }
+    }
+
+    // ===== ADD BUTTON POPUP =====
+    private fun showAddPopup() {
+        val dialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.popup_add_options, null)
+        dialog.setContentView(view)
+
+        // Make ALL buttons visible
+        val buttonIds = listOf(
+            R.id.btnAddWorkout,
+            R.id.btnAddRecipe,
+            R.id.btnLogProgress,
+            R.id.btnCamera,
+            R.id.btnMap,
+            R.id.btnMain,
+            R.id.btnChat,
+            R.id.btnPopularExercises
+
+        )
+
+        buttonIds.forEach { id ->
+            view.findViewById<Button>(id).visibility = View.VISIBLE
+        }
+
+        // === Button Click Handlers ===
+        view.findViewById<Button>(R.id.btnAddWorkout).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, AddWorkoutActivity::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnAddRecipe).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, AddRecipesActivity::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnLogProgress).setOnClickListener {
+            dialog.dismiss()
+            // startActivity(Intent(this, LogProgressActivity::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnCamera).setOnClickListener {
+            dialog.dismiss()
+            // startActivity(Intent(this, CameraIntegration::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnMap).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, MapActivity::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnMain).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnChat).setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, ChatActivity::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnPopularExercises)?.setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, PopularExercisesActivity::class.java))
+        }
+
+        dialog.show()
     }
 }
