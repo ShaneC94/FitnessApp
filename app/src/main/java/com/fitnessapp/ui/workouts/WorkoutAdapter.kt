@@ -60,8 +60,12 @@ class WorkoutAdapter (var workouts: List<Workout>,
             onFavoriteToggled(workout, isChecked)
         }
 
-        holder.itemView.setOnClickListener {
-            onItemClicked(workouts[position]) //current workout in the list
+        holder.workoutNameTextView.setOnClickListener {
+            // Use holder.bindingAdapterPosition for safety
+            val currentPosition = holder.bindingAdapterPosition
+            if (currentPosition != RecyclerView.NO_POSITION) {
+                onItemClicked(workouts[currentPosition])
+            }
         }
     }
 
