@@ -1,133 +1,287 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:background="@color/colorBackground"
+    android:fitsSystemWindows="true">
 
+    <!-- ===== HEADER ===== -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:id="@+id/headerLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:padding="24dp"
+        android:background="@color/colorSurface"
+        android:elevation="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- ===== IMAGE PREVIEW ===== -->
-        <ImageView
-            android:id="@+id/image_recipe_preview"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
-            android:layout_marginBottom="16dp"
-            android:scaleType="centerCrop"
-            android:background="@drawable/rounded_corner_bg"
-            android:contentDescription="Recipe Image Preview"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/button_add_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Photo"
-            android:layout_marginStart="12dp"
-            app:layout_constraintStart_toEndOf="@id/image_recipe_preview"
-            app:layout_constraintTop_toTopOf="@id/image_recipe_preview" />
-
-        <Button
-            android:id="@+id/button_remove_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Remove"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toEndOf="@id/image_recipe_preview"
-            app:layout_constraintTop_toBottomOf="@id/button_add_photo" />
-
-        <EditText
-            android:id="@+id/editText_recipe_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Recipe Name"
-            android:layout_marginTop="24dp"
-            android:inputType="textPersonName"
-            app:layout_constraintTop_toBottomOf="@id/image_recipe_preview"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <EditText
-            android:id="@+id/editText_ingredients"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:minHeight="150dp"
-            android:gravity="top|start"
-            android:hint="Ingredients"
-            android:inputType="textMultiLine"
-            app:layout_constraintTop_toBottomOf="@id/editText_recipe_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <EditText
-            android:id="@+id/editText_instructions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="200dp"
-            android:gravity="top|start"
-            android:layout_marginTop="16dp"
-            android:hint="Instructions"
-            android:inputType="textMultiLine"
-            app:layout_constraintTop_toBottomOf="@id/editText_ingredients"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <EditText
-            android:id="@+id/editText_preptime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="Preparation Time (minutes)"
-            android:inputType="number"
-            app:layout_constraintTop_toBottomOf="@id/editText_instructions"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <EditText
-            android:id="@+id/editText_calories"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="Calories"
-            android:inputType="number"
-            app:layout_constraintTop_toBottomOf="@id/editText_preptime"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- ===== BUTTON ROW ===== -->
         <LinearLayout
-            android:id="@+id/button_row"
-            android:layout_width="match_parent"
+            android:id="@+id/llGreetingQuote"
+            android:orientation="vertical"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@id/editText_calories"
+            android:layout_marginEnd="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toStartOf="@id/btnLogout"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-            <Button
-                android:id="@+id/button_update_recipe"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tvGreeting"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="12dp"
-                android:text="Update Recipe" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorTextPrimary"/>
 
-            <Button
-                android:id="@+id/button_close_recipe"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tvQuote"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="12dp"
-                android:text="Back" />
+                android:textSize="14sp"
+                android:textColor="@color/colorTextSecondary"/>
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="@string/logout"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+
+    <!-- Divider -->
+    <View
+        android:id="@+id/headerDivider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:alpha="0.2"
+        android:background="@color/colorPrimary"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- ===== SCROLL CONTENT ===== -->
+    <ScrollView
+        android:id="@+id/scrollViewContent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/headerDivider"
+        app:layout_constraintBottom_toTopOf="@id/ll_bottom_buttons"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Recipe Name">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText_recipe_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:text="Ingredients"
+                android:textStyle="bold"
+                android:textColor="@color/colorTextPrimary"
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="e.g., 1 cup flour, 2 eggs"
+                app:boxBackgroundMode="outline">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText_ingredients"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:text="Instructions"
+                android:textStyle="bold"
+                android:textColor="@color/colorTextPrimary"
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="e.g., 1. Mix ingredients..."
+                app:boxBackgroundMode="outline">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText_instructions"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="Preparation Time (minutes)">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText_preptime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="Calories">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText_calories"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvPhotoLabel"
+                android:text="Recipe Photo"
+                android:textStyle="bold"
+                android:textColor="@color/colorTextPrimary"
+                android:layout_marginTop="24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/image_recipe_preview"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                android:padding="4dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_placeholder_image"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="12dp">
+
+                <Button
+                    android:id="@+id/button_add_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add Photo"/>
+
+                <Button
+                    android:id="@+id/button_remove_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Remove"
+                    android:layout_marginStart="16dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- ===== BOTTOM BUTTONS ABOVE NAV ===== -->
+    <LinearLayout
+        android:id="@+id/ll_bottom_buttons"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorSurface"
+        android:elevation="8dp"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/button_close_recipe"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Back"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/button_update_recipe"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Update Recipe"/>
+    </LinearLayout>
+
+    <!-- ===== BOTTOM NAVIGATION ===== -->
+    <LinearLayout
+        android:id="@+id/bottomNav"
+        android:layout_width="0dp"
+        android:layout_height="72dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@color/colorSurface"
+        android:elevation="8dp"
+        android:padding="12dp"
+        android:paddingBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/btnRecipes"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:drawablePadding="4dp"
+            android:drawableTop="@drawable/outline_kitchen_24"
+            android:contentDescription="@string/recipes"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAdd"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginHorizontal="16dp"
+            app:backgroundTint="@color/colorPrimary"
+            android:src="@drawable/outline_add_24"
+            app:tint="@android:color/white"/>
+
+        <Button
+            android:id="@+id/btnWorkouts"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:drawablePadding="4dp"
+            android:drawableTop="@drawable/outline_exercise_24"
+            android:contentDescription="@string/workouts"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
