@@ -64,8 +64,12 @@ class RecipeAdapter(
             onFavoriteToggled(recipe, isChecked)
         }
 
-        holder.itemView.setOnClickListener {
-            onItemClicked(recipe)
+        holder.recipeNameTextView.setOnClickListener {
+            // Use holder.bindingAdapterPosition for safety
+            val currentPosition = holder.bindingAdapterPosition
+            if (currentPosition != RecyclerView.NO_POSITION) {
+                onItemClicked(recipes[currentPosition])
+            }
         }
     }
 
